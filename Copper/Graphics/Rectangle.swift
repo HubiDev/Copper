@@ -14,7 +14,7 @@ import simd
 open class Rectangle: Drawable {
     
     var renderPiplineState: MTLRenderPipelineState!
-    let vertexBuffer : MTLBuffer
+    let vertexBuffer: MTLBuffer
     
     var location: simd_float2
     var size: simd_float2
@@ -22,6 +22,7 @@ open class Rectangle: Drawable {
     var vertices: [ShaderVertex]
     
     public init?(view: MTKView, device: MTLDevice, initLocation: simd_float2, initSize: simd_float2) {
+        
         location = initLocation
         size = initSize
 
@@ -31,12 +32,38 @@ open class Rectangle: Drawable {
             return nil
         }
         
-        vertices = [ShaderVertex(color: [1, 1, 1, 1], position: [-1, -1]),
-                    ShaderVertex(color: [0, 1, 0, 1], position: [0, 1]),
-                    ShaderVertex(color: [0, 0, 1, 1], position: [1, -1])]
-        
+        vertices = Rectangle.createVertices(view: view, initSize: size, initLocation: initLocation)
         vertexBuffer = device.makeBuffer(bytes: vertices, length: vertices.count * MemoryLayout<ShaderVertex>.stride, options: [])!
         
+    }
+    
+    class func createVertices(view: MTKView, initSize: simd_float2, initLocation: simd_float2) -> [ShaderVertex] {
+        
+        var ratioWidth: Float
+        var ratioHeight: Float
+        
+        let screenSize = view.drawableSize;
+        
+        if(screenSize.width >= screenSize.height){
+            ratioWidth = Float(screenSize.height / screenSize.width)
+            ratioHeight = 1.0
+            
+        } else {
+            ratioWidth = 1.0
+            ratioHeight = Float(screenSize.width / screenSize.height)
+            
+        }
+        
+        let adaptedWidth = initSize.x * ratioWidth
+        let adaptedHeight = initSize.y * ratioHeight
+        
+        
+        return [ShaderVertex(color: [0, 0, 1, 1], position: initLocation),
+                ShaderVertex(color: [0, 0, 1, 1], position: [initLocation.x, initLocation.y - adaptedHeight]),
+                ShaderVertex(color: [0, 0, 1, 1], position: [initLocation.x + adaptedWidth, initLocation.y - adaptedHeight]),
+               ShaderVertex(color: [0, 0, 1, 1], position: initLocation),
+               ShaderVertex(color: [0, 0, 1, 1], position: [initLocation.x + adaptedWidth, initLocation.y - adaptedHeight]),
+               ShaderVertex(color: [0, 0, 1, 1], position: [initLocation.x + adaptedWidth, initLocation.y])]
     }
     
     class func buildRenderPipelineWithDevice(device: MTLDevice,
@@ -70,7 +97,7 @@ open class Rectangle: Drawable {
         renderCommandEncoder.setRenderPipelineState(renderPiplineState)
         renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         renderCommandEncoder.setVertexBytes(&transformParams, length: MemoryLayout<TransformParams>.stride, index: 1)
-        renderCommandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 3)
+        renderCommandEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 6)
         
     }
 
