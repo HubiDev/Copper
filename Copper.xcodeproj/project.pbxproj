@@ -10,6 +10,10 @@
 		80267FDD25A9FCB300AF891B /* Copper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80267FD325A9FCB200AF891B /* Copper.framework */; };
 		80267FE225A9FCB300AF891B /* CopperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80267FE125A9FCB300AF891B /* CopperTests.swift */; };
 		80267FE425A9FCB300AF891B /* Copper.h in Headers */ = {isa = PBXBuildFile; fileRef = 80267FD625A9FCB200AF891B /* Copper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		80ABAF6325AA0F2B00815656 /* Drawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80ABAF5E25AA0F2B00815656 /* Drawable.swift */; };
+		80ABAF6425AA0F2B00815656 /* Rectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80ABAF6125AA0F2B00815656 /* Rectangle.swift */; };
+		80ABAF6D25AA0FE300815656 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 80ABAF6C25AA0FE300815656 /* Shaders.metal */; };
+		80ABAF7F25AA13FC00815656 /* ShaderTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80ABAF7E25AA13FC00815656 /* ShaderTypes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +33,10 @@
 		80267FDC25A9FCB300AF891B /* CopperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CopperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		80267FE125A9FCB300AF891B /* CopperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopperTests.swift; sourceTree = "<group>"; };
 		80267FE325A9FCB300AF891B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		80ABAF5E25AA0F2B00815656 /* Drawable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawable.swift; sourceTree = "<group>"; };
+		80ABAF6125AA0F2B00815656 /* Rectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rectangle.swift; sourceTree = "<group>"; };
+		80ABAF6C25AA0FE300815656 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		80ABAF7E25AA13FC00815656 /* ShaderTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderTypes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +79,8 @@
 		80267FD525A9FCB200AF891B /* Copper */ = {
 			isa = PBXGroup;
 			children = (
+				80ABAF6B25AA0F9A00815656 /* Shaders */,
+				80ABAF5925A9FE4900815656 /* Graphics */,
 				80267FD625A9FCB200AF891B /* Copper.h */,
 				80267FD725A9FCB200AF891B /* Info.plist */,
 			);
@@ -84,6 +94,24 @@
 				80267FE325A9FCB300AF891B /* Info.plist */,
 			);
 			path = CopperTests;
+			sourceTree = "<group>";
+		};
+		80ABAF5925A9FE4900815656 /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				80ABAF5E25AA0F2B00815656 /* Drawable.swift */,
+				80ABAF6125AA0F2B00815656 /* Rectangle.swift */,
+			);
+			path = Graphics;
+			sourceTree = "<group>";
+		};
+		80ABAF6B25AA0F9A00815656 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				80ABAF6C25AA0FE300815656 /* Shaders.metal */,
+				80ABAF7E25AA13FC00815656 /* ShaderTypes.swift */,
+			);
+			path = Shaders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,6 +222,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80ABAF7F25AA13FC00815656 /* ShaderTypes.swift in Sources */,
+				80ABAF6D25AA0FE300815656 /* Shaders.metal in Sources */,
+				80ABAF6425AA0F2B00815656 /* Rectangle.swift in Sources */,
+				80ABAF6325AA0F2B00815656 /* Drawable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,6 +421,7 @@
 		80267FEB25A9FCB300AF891B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 34L59FC4PZ;
 				INFOPLIST_FILE = CopperTests/Info.plist;
@@ -407,6 +440,7 @@
 		80267FEC25A9FCB300AF891B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 34L59FC4PZ;
 				INFOPLIST_FILE = CopperTests/Info.plist;
