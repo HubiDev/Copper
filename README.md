@@ -1,3 +1,2 @@
 # Copper
-
-A description of this package.
+Game engine written in Swift using Metal
