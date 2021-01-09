@@ -18,6 +18,7 @@ open class Rectangle: Drawable {
     
     var location: simd_float2
     var size: simd_float2
+    var locationOffest: simd_float2
     
     var vertices: [ShaderVertex]
     
@@ -25,6 +26,7 @@ open class Rectangle: Drawable {
         
         location = initLocation
         size = initSize
+        locationOffest = [0,0]
 
         do {
             renderPiplineState = try Rectangle.buildRenderPipelineWithDevice(device: device, metalKitView: view)
@@ -92,13 +94,18 @@ open class Rectangle: Drawable {
     
     public func draw(renderCommandEncoder: MTLRenderCommandEncoder) -> Void {
         
-        var transformParams = TransformParams(location: [0, 0])
+        var transformParams = TransformParams(location: locationOffest)
         
         renderCommandEncoder.setRenderPipelineState(renderPiplineState)
         renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         renderCommandEncoder.setVertexBytes(&transformParams, length: MemoryLayout<TransformParams>.stride, index: 1)
         renderCommandEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 6)
         
+    }
+    
+    public func updateLocation(newLocation: simd_float2) -> Void {
+        
+        locationOffest = location - newLocation
     }
 
 }
