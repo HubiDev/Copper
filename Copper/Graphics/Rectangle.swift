@@ -61,10 +61,10 @@ open class Rectangle: Drawable {
         
         
         return [ShaderVertex(color: [0, 0, 1, 1], position: initLocation),
-                ShaderVertex(color: [0, 0, 1, 1], position: [initLocation.x, initLocation.y - adaptedHeight]),
-                ShaderVertex(color: [0, 0, 1, 1], position: [initLocation.x + adaptedWidth, initLocation.y - adaptedHeight]),
+                ShaderVertex(color: [0, 0, 1, 1], position: [initLocation.x, initLocation.y + adaptedHeight]),
+                ShaderVertex(color: [0, 0, 1, 1], position: [initLocation.x + adaptedWidth, initLocation.y + adaptedHeight]),
                ShaderVertex(color: [0, 0, 1, 1], position: initLocation),
-               ShaderVertex(color: [0, 0, 1, 1], position: [initLocation.x + adaptedWidth, initLocation.y - adaptedHeight]),
+               ShaderVertex(color: [0, 0, 1, 1], position: [initLocation.x + adaptedWidth, initLocation.y + adaptedHeight]),
                ShaderVertex(color: [0, 0, 1, 1], position: [initLocation.x + adaptedWidth, initLocation.y])]
     }
     
@@ -105,7 +105,8 @@ open class Rectangle: Drawable {
     
     public func updateLocation(newLocation: simd_float2) -> Void {
         
-        locationOffest = location - newLocation
+        //print(newLocation)
+        locationOffest = location - [-newLocation.x, -newLocation.y]
     }
 
 }
