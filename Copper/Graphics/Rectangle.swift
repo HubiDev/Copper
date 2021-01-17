@@ -103,6 +103,10 @@ open class Rectangle: Drawable {
         
     }
     
+    public func getLocation() -> simd_float2 {
+        return (location + locationOffest)
+    }
+    
     public func updateLocation(newLocation: simd_float2) -> Void {
         
         //print(newLocation)

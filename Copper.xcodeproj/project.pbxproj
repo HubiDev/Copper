@@ -12,7 +12,7 @@
 		80267FE425A9FCB300AF891B /* Copper.h in Headers */ = {isa = PBXBuildFile; fileRef = 80267FD625A9FCB200AF891B /* Copper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8034BBD925AB259B0087E126 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034BBD825AB259B0087E126 /* Geometry.swift */; };
 		8034BBDD25AB28790087E126 /* GeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034BBDC25AB28790087E126 /* GeometryTests.swift */; };
-		8064F6E425B0B53600EE351D /* Gyroscope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8064F6E325B0B53600EE351D /* Gyroscope.swift */; };
+		8064F6E425B0B53600EE351D /* MotionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8064F6E325B0B53600EE351D /* MotionHandler.swift */; };
 		80ABAF6325AA0F2B00815656 /* Drawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80ABAF5E25AA0F2B00815656 /* Drawable.swift */; };
 		80ABAF6425AA0F2B00815656 /* Rectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80ABAF6125AA0F2B00815656 /* Rectangle.swift */; };
 		80ABAF6D25AA0FE300815656 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 80ABAF6C25AA0FE300815656 /* Shaders.metal */; };
@@ -38,7 +38,7 @@
 		80267FE325A9FCB300AF891B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8034BBD825AB259B0087E126 /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
 		8034BBDC25AB28790087E126 /* GeometryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryTests.swift; sourceTree = "<group>"; };
-		8064F6E325B0B53600EE351D /* Gyroscope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gyroscope.swift; sourceTree = "<group>"; };
+		8064F6E325B0B53600EE351D /* MotionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionHandler.swift; sourceTree = "<group>"; };
 		80ABAF5E25AA0F2B00815656 /* Drawable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawable.swift; sourceTree = "<group>"; };
 		80ABAF6125AA0F2B00815656 /* Rectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rectangle.swift; sourceTree = "<group>"; };
 		80ABAF6C25AA0FE300815656 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 		8064F6E225B0B51400EE351D /* Input */ = {
 			isa = PBXGroup;
 			children = (
-				8064F6E325B0B53600EE351D /* Gyroscope.swift */,
+				8064F6E325B0B53600EE351D /* MotionHandler.swift */,
 			);
 			path = Input;
 			sourceTree = "<group>";
@@ -242,7 +242,7 @@
 				80ABAF7F25AA13FC00815656 /* ShaderTypes.swift in Sources */,
 				80ABAF6D25AA0FE300815656 /* Shaders.metal in Sources */,
 				80ABAF6425AA0F2B00815656 /* Rectangle.swift in Sources */,
-				8064F6E425B0B53600EE351D /* Gyroscope.swift in Sources */,
+				8064F6E425B0B53600EE351D /* MotionHandler.swift in Sources */,
 				80ABAF6325AA0F2B00815656 /* Drawable.swift in Sources */,
 				8034BBD925AB259B0087E126 /* Geometry.swift in Sources */,
 			);
