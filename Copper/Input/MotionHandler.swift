@@ -10,16 +10,19 @@ import CoreMotion
 
 public enum MotionX {
     case left
+    case neutral
     case right
 }
 
 public enum MotionY{
     case forward
+    case neutral
     case backward
 }
 
 public enum MotionZ {
     case clockwise
+    case neutral
     case anticlockwise
 }
 
@@ -33,6 +36,8 @@ open class MotionHandler {
     private var lastXAttitude: MotionX
     private var lastYAttitude: MotionY
     private var lastZAttitude: MotionZ
+    
+    private let attitudeSensitivity: Double = 0.1
     
     
     public var rotationX: MotionX {
@@ -74,12 +79,12 @@ open class MotionHandler {
     
     public init() {
         
-        lastXRotation = MotionX.left
-        lastYRotation = MotionY.backward
-        lastZRotation = MotionZ.anticlockwise
-        lastXAttitude = MotionX.left
-        lastYAttitude = MotionY.backward
-        lastZAttitude = MotionZ.anticlockwise
+        lastXRotation = MotionX.neutral
+        lastYRotation = MotionY.neutral
+        lastZRotation = MotionZ.neutral
+        lastXAttitude = MotionX.neutral
+        lastYAttitude = MotionY.neutral
+        lastZAttitude = MotionZ.neutral
         
         motionManager = CMMotionManager();
         
@@ -95,10 +100,6 @@ open class MotionHandler {
         if (data != nil) {
             handleRotationUpdate(data: data!.rotationRate)
             handleAttitudeUpdate(data: data!.attitude)
-            
-            print(lastXAttitude)
-            print(lastYAttitude)
-            print(lastZAttitude)
         }
     }
     
@@ -123,22 +124,29 @@ open class MotionHandler {
     }
     
     private func handleAttitudeUpdate(data: CMAttitude) -> Void {
-        if(data.pitch < 0) {
+        
+        if (data.pitch < -attitudeSensitivity) {
             lastXAttitude = MotionX.left
-        } else {
+        } else if (data.pitch > attitudeSensitivity) {
             lastXAttitude = MotionX.right
+        } else {
+            lastXAttitude = MotionX.neutral
         }
         
-        if(data.roll < 0) {
+        if(data.roll < -attitudeSensitivity) {
             lastYAttitude = MotionY.backward
-        } else {
+        } else if (data.roll > attitudeSensitivity) {
             lastYAttitude = MotionY.forward
+        } else {
+            lastYAttitude = MotionY.neutral
         }
         
-        if(data.yaw < 0) {
+        if(data.yaw < -attitudeSensitivity) {
             lastZAttitude = MotionZ.clockwise
-        } else {
+        } else if(data.yaw > attitudeSensitivity) {
             lastZAttitude = MotionZ.anticlockwise
+        } else {
+            lastZAttitude = MotionZ.neutral
         }
     }
     
