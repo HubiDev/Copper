@@ -104,6 +104,8 @@ open class MotionHandler {
     }
     
     private func handleRotationUpdate(data: CMRotationRate) -> Void {
+        
+        // TODO neutral enum
         if (data.x < 0){
             lastXRotation = MotionX.left
         } else {
