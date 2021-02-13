@@ -12,6 +12,8 @@
 		80267FE425A9FCB300AF891B /* Copper.h in Headers */ = {isa = PBXBuildFile; fileRef = 80267FD625A9FCB200AF891B /* Copper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8034BBD925AB259B0087E126 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034BBD825AB259B0087E126 /* Geometry.swift */; };
 		8034BBDD25AB28790087E126 /* GeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034BBDC25AB28790087E126 /* GeometryTests.swift */; };
+		8048FF3225D866BE00F33353 /* GameBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8048FF3125D866BE00F33353 /* GameBase.swift */; };
+		8048FF3625D8671100F33353 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8048FF3525D8671100F33353 /* Renderer.swift */; };
 		8064F6E425B0B53600EE351D /* MotionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8064F6E325B0B53600EE351D /* MotionHandler.swift */; };
 		80ABAF6325AA0F2B00815656 /* Drawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80ABAF5E25AA0F2B00815656 /* Drawable.swift */; };
 		80ABAF6425AA0F2B00815656 /* Rectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80ABAF6125AA0F2B00815656 /* Rectangle.swift */; };
@@ -38,6 +40,8 @@
 		80267FE325A9FCB300AF891B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8034BBD825AB259B0087E126 /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
 		8034BBDC25AB28790087E126 /* GeometryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryTests.swift; sourceTree = "<group>"; };
+		8048FF3125D866BE00F33353 /* GameBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBase.swift; sourceTree = "<group>"; };
+		8048FF3525D8671100F33353 /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
 		8064F6E325B0B53600EE351D /* MotionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionHandler.swift; sourceTree = "<group>"; };
 		80ABAF5E25AA0F2B00815656 /* Drawable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawable.swift; sourceTree = "<group>"; };
 		80ABAF6125AA0F2B00815656 /* Rectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rectangle.swift; sourceTree = "<group>"; };
@@ -85,6 +89,7 @@
 		80267FD525A9FCB200AF891B /* Copper */ = {
 			isa = PBXGroup;
 			children = (
+				8048FF3025D866AB00F33353 /* Engine */,
 				8064F6E225B0B51400EE351D /* Input */,
 				80ABAF6B25AA0F9A00815656 /* Shaders */,
 				80ABAF5925A9FE4900815656 /* Graphics */,
@@ -104,6 +109,14 @@
 			path = CopperTests;
 			sourceTree = "<group>";
 		};
+		8048FF3025D866AB00F33353 /* Engine */ = {
+			isa = PBXGroup;
+			children = (
+				8048FF3125D866BE00F33353 /* GameBase.swift */,
+			);
+			path = Engine;
+			sourceTree = "<group>";
+		};
 		8064F6E225B0B51400EE351D /* Input */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +131,7 @@
 				80ABAF5E25AA0F2B00815656 /* Drawable.swift */,
 				80ABAF6125AA0F2B00815656 /* Rectangle.swift */,
 				8034BBD825AB259B0087E126 /* Geometry.swift */,
+				8048FF3525D8671100F33353 /* Renderer.swift */,
 			);
 			path = Graphics;
 			sourceTree = "<group>";
@@ -239,6 +253,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8048FF3625D8671100F33353 /* Renderer.swift in Sources */,
+				8048FF3225D866BE00F33353 /* GameBase.swift in Sources */,
 				80ABAF7F25AA13FC00815656 /* ShaderTypes.swift in Sources */,
 				80ABAF6D25AA0FE300815656 /* Shaders.metal in Sources */,
 				80ABAF6425AA0F2B00815656 /* Rectangle.swift in Sources */,

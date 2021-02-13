@@ -109,12 +109,8 @@ open class Rectangle: Drawable {
     
     public func updateLocation(newLocation: simd_float2) -> Void {
         
-        print("new location:")
-        print(newLocation)
         locationOffest = location - [newLocation.x, newLocation.y]
         locationOffest *= -1
-        print("new locationOffset:")
-        print(locationOffest)
     }
 
 }
