@@ -15,11 +15,15 @@ open class CPRRenderer: NSObject, MTKViewDelegate {
     
     private let elementsToDraw: [CPRDrawable]
     
+    private var beforeDrawAction: () -> Void
+    
     init?(metalKitView: MTKView) {
         self.device = metalKitView.device!
         guard let queue = self.device.makeCommandQueue() else { return nil }
         self.commandQueue = queue
         elementsToDraw = []
+        
+        beforeDrawAction = {}
         
         super.init()
     }
@@ -28,7 +32,14 @@ open class CPRRenderer: NSObject, MTKViewDelegate {
         
     }
     
+    public func doBeforeDrawing(action: @escaping () -> Void)
+    {
+        beforeDrawAction = action
+    }
+    
     public func draw(in view: MTKView) {
+        
+        beforeDrawAction()
         
         if let commandBuffer = commandQueue.makeCommandBuffer() {
                         
