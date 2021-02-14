@@ -9,6 +9,6 @@ import Foundation
 import Metal
 
 
-public protocol CPRDrawable {
+public protocol CPEDrawable {
     func draw(renderCommandEncoder: MTLRenderCommandEncoder) -> Void
 }

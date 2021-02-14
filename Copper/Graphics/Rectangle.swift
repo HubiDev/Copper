@@ -11,7 +11,7 @@ import MetalKit
 import simd
 
 @available(iOS 10.0, *)
-open class CPRRectangle: CPRDrawable {
+open class CPERectangle: CPEDrawable {
     
     var renderPiplineState: MTLRenderPipelineState!
     let vertexBuffer: MTLBuffer
@@ -29,12 +29,12 @@ open class CPRRectangle: CPRDrawable {
         locationOffest = [0,0]
 
         do {
-            renderPiplineState = try CPRRectangle.buildRenderPipelineWithDevice(device: device, metalKitView: view)
+            renderPiplineState = try CPERectangle.buildRenderPipelineWithDevice(device: device, metalKitView: view)
         } catch {
             return nil
         }
         
-        vertices = CPRRectangle.createVertices(view: view, initSize: size, initLocation: initLocation)
+        vertices = CPERectangle.createVertices(view: view, initSize: size, initLocation: initLocation)
         vertexBuffer = device.makeBuffer(bytes: vertices, length: vertices.count * MemoryLayout<ShaderVertex>.stride, options: [])!
         
     }

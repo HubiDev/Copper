@@ -8,12 +8,12 @@
 import Foundation
 import MetalKit
 
-open class CPRRenderer: NSObject, MTKViewDelegate {
+open class CPERenderer: NSObject, MTKViewDelegate {
     
     public let device: MTLDevice
     public let commandQueue: MTLCommandQueue
     
-    private let elementsToDraw: [CPRDrawable]
+    private var elementsToDraw: [CPEDrawable]
     
     private var beforeDrawAction: () -> Void
     
@@ -30,6 +30,10 @@ open class CPRRenderer: NSObject, MTKViewDelegate {
     
     public func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
         
+    }
+    
+    internal func addElementToDraw(element: CPEDrawable) {
+        elementsToDraw.append(element)
     }
     
     public func doBeforeDrawing(action: @escaping () -> Void)

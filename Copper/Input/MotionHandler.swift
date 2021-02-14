@@ -26,7 +26,7 @@ public enum MotionZ {
     case anticlockwise
 }
 
-open class MotionHandler {
+open class CPEMotionHandler {
     
     private let motionManager: CMMotionManager
     private var lastXRotation: MotionX
