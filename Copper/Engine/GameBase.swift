@@ -40,6 +40,9 @@ open class CPEGameBase {
     }
     
     public func update() -> Void {
-        print("Before drawing")
+        
+        for currentElement in elements {
+            currentElement.update()
+        }
     }
 }
