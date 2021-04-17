@@ -7,6 +7,7 @@
 
 import Foundation
 import simd
+import MetalKit
 
 public func screenToNormalizedCoordinates(screenCoordinate: simd_float2, screenSize: simd_float2) -> simd_float2 {
     
@@ -17,4 +18,10 @@ public func screenToNormalizedCoordinates(screenCoordinate: simd_float2, screenS
     normalized += [-1.0, 1.0]
     
     return normalized
+}
+
+public func getScreenAspectRatio(_ view: MTKView) -> Float {
+    
+    return Float(view.drawableSize.height / view.drawableSize.width)
+    
 }

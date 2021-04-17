@@ -112,5 +112,9 @@ open class CPERectangle: CPEDrawable {
         locationOffest = location - [newLocation.x, newLocation.y]
         locationOffest *= -1
     }
+    
+    public func getSize() -> simd_float2 {
+        return size;
+    }
 
 }
