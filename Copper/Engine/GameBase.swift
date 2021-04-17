@@ -39,10 +39,21 @@ open class CPEGameBase {
         }
     }
     
-    public func update() -> Void {
+    open func update() -> Void {
         
         for currentElement in elements {
             currentElement.update()
         }
     }
+    
+    open func getElements<T>() -> [T] {
+        let filtered = elements.filter{$0 is T}
+        return filtered as! [T];
+    }
+    
+    open func getElements() -> [CPEGameElement]{
+        return elements
+    }
+    
+    
 }
