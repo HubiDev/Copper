@@ -8,18 +8,11 @@
 import Foundation
 import simd
 
-/*
- struct Vertex {
-     vector_float4 color;
-     vector_float2 pos;
- };
- */
-
 struct ShaderVertex {
-    let color: vector_float4
-    let position: vector_float2
+    var color: vector_float4
+    var position: vector_float2
 }
 
 struct TransformParams{
-    let location: vector_float2
+    var location: vector_float2
 }

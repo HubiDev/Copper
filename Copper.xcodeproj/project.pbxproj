@@ -20,6 +20,7 @@
 		80ABAF6425AA0F2B00815656 /* Rectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80ABAF6125AA0F2B00815656 /* Rectangle.swift */; };
 		80ABAF6D25AA0FE300815656 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 80ABAF6C25AA0FE300815656 /* Shaders.metal */; };
 		80ABAF7F25AA13FC00815656 /* ShaderTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80ABAF7E25AA13FC00815656 /* ShaderTypes.swift */; };
+		80E2F777263DD6E600DC6AA6 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E2F776263DD6E600DC6AA6 /* Color.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		80ABAF6125AA0F2B00815656 /* Rectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rectangle.swift; sourceTree = "<group>"; };
 		80ABAF6C25AA0FE300815656 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		80ABAF7E25AA13FC00815656 /* ShaderTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderTypes.swift; sourceTree = "<group>"; };
+		80E2F776263DD6E600DC6AA6 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 				80ABAF6125AA0F2B00815656 /* Rectangle.swift */,
 				8034BBD825AB259B0087E126 /* Geometry.swift */,
 				8048FF3525D8671100F33353 /* Renderer.swift */,
+				80E2F776263DD6E600DC6AA6 /* Color.swift */,
 			);
 			path = Graphics;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 				8048FF3625D8671100F33353 /* Renderer.swift in Sources */,
 				8048FF3225D866BE00F33353 /* GameBase.swift in Sources */,
 				803F4A2225D9180F00B76FA0 /* GameElement.swift in Sources */,
+				80E2F777263DD6E600DC6AA6 /* Color.swift in Sources */,
 				80ABAF7F25AA13FC00815656 /* ShaderTypes.swift in Sources */,
 				80ABAF6D25AA0FE300815656 /* Shaders.metal in Sources */,
 				80ABAF6425AA0F2B00815656 /* Rectangle.swift in Sources */,

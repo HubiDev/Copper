@@ -13,8 +13,10 @@ import simd
 @available(iOS 10.0, *)
 open class CPERectangle: CPEDrawable {
     
+    let device: MTLDevice
+    
     var renderPiplineState: MTLRenderPipelineState!
-    let vertexBuffer: MTLBuffer
+    var vertexBuffer: MTLBuffer
     
     let location: simd_float2
     var size: simd_float2
@@ -24,6 +26,7 @@ open class CPERectangle: CPEDrawable {
     
     public init?(view: MTKView, device: MTLDevice, initLocation: simd_float2, initSize: simd_float2) {
         
+        self.device = device
         location = initLocation
         size = initSize
         locationOffest = [0,0]
@@ -60,12 +63,12 @@ open class CPERectangle: CPEDrawable {
         let adaptedHeight = initSize.y * ratioHeight
         
         
-        return [ShaderVertex(color: [0, 0, 1, 1], position: initLocation),
-                ShaderVertex(color: [0, 0, 1, 1], position: [initLocation.x, initLocation.y + adaptedHeight]),
-                ShaderVertex(color: [0, 0, 1, 1], position: [initLocation.x + adaptedWidth, initLocation.y + adaptedHeight]),
-               ShaderVertex(color: [0, 0, 1, 1], position: initLocation),
-               ShaderVertex(color: [0, 0, 1, 1], position: [initLocation.x + adaptedWidth, initLocation.y + adaptedHeight]),
-               ShaderVertex(color: [0, 0, 1, 1], position: [initLocation.x + adaptedWidth, initLocation.y])]
+        return [ShaderVertex(color: CPEBlue.getValue(), position: initLocation),
+                ShaderVertex(color: CPEBlue.getValue(), position: [initLocation.x, initLocation.y + adaptedHeight]),
+                ShaderVertex(color: CPEBlue.getValue(), position: [initLocation.x + adaptedWidth, initLocation.y + adaptedHeight]),
+               ShaderVertex(color: CPEBlue.getValue(), position: initLocation),
+               ShaderVertex(color: CPEBlue.getValue(), position: [initLocation.x + adaptedWidth, initLocation.y + adaptedHeight]),
+               ShaderVertex(color: CPEBlue.getValue(), position: [initLocation.x + adaptedWidth, initLocation.y])]
     }
     
     class func buildRenderPipelineWithDevice(device: MTLDevice,
@@ -111,6 +114,19 @@ open class CPERectangle: CPEDrawable {
         
         locationOffest = location - [newLocation.x, newLocation.y]
         locationOffest *= -1
+    }
+    
+    public func setColor(newColor: CPEColor) -> Void {
+        
+        // TODO optimize
+        
+        vertices[0].color = newColor.getValue()
+        
+        for i in self.vertices.indices {
+            self.vertices[i].color = newColor.getValue()
+        }
+        
+        self.vertexBuffer = self.device.makeBuffer(bytes: vertices, length: vertices.count * MemoryLayout<ShaderVertex>.stride, options: [])!
     }
     
     public func getSize() -> simd_float2 {
