@@ -25,3 +25,20 @@ public func getScreenAspectRatio(_ view: MTKView) -> Float {
     return Float(view.drawableSize.height / view.drawableSize.width)
     
 }
+
+public func calcVector(_ startPoint: simd_float2, _ endPoint: simd_float2) -> simd_float2 {
+    return endPoint - startPoint
+}
+
+public func calcOrthoVector(_ vector: simd_float2) -> simd_float2 {
+    return [vector.y * -1.0, vector.x]
+}
+
+public func calcVectorLength(_ vector: simd_float2) -> Float {
+    return (pow(vector.x, 2.0) + pow(vector.y, 2.0)).squareRoot();
+}
+
+public func calcUnitVector(_ vector: simd_float2) -> simd_float2 {
+    let length = calcVectorLength(vector)
+    return [vector.x / length, vector.y / length]
+}

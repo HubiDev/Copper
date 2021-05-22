@@ -37,7 +37,7 @@ open class CPEMotionHandler {
     private var lastYAttitude: MotionY
     private var lastZAttitude: MotionZ
     
-    private let attitudeSensitivity: Double = 0.1
+    private let attitudeSensitivity: Double = 0.0
     
     
     public var rotationX: MotionX {
@@ -127,6 +127,8 @@ open class CPEMotionHandler {
     
     private func handleAttitudeUpdate(data: CMAttitude) -> Void {
         
+        print(data.pitch)
+        
         if (data.pitch < -attitudeSensitivity) {
             lastXAttitude = MotionX.left
         } else if (data.pitch > attitudeSensitivity) {
@@ -134,6 +136,8 @@ open class CPEMotionHandler {
         } else {
             lastXAttitude = MotionX.neutral
         }
+        
+        print(data.roll)
         
         if(data.roll < -attitudeSensitivity) {
             lastYAttitude = MotionY.backward

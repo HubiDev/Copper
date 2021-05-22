@@ -20,7 +20,6 @@ open class CPEControllerHandler {
         
         for controller in GCController.controllers() {
             
-            print(controller.vendorName)
             controllerInstance = controller
         }
         return true
