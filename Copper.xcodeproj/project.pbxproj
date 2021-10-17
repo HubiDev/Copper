@@ -20,6 +20,7 @@
 		805172CE265050E4003F2068 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 805172CC265050DD003F2068 /* GameController.framework */; };
 		805172CF265050E4003F2068 /* GameController.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 805172CC265050DD003F2068 /* GameController.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8064F6E425B0B53600EE351D /* MotionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8064F6E325B0B53600EE351D /* MotionHandler.swift */; };
+		807FC882271C47AB00F052A9 /* Texture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807FC881271C47AB00F052A9 /* Texture.swift */; };
 		80ABAF6325AA0F2B00815656 /* Drawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80ABAF5E25AA0F2B00815656 /* Drawable.swift */; };
 		80ABAF6425AA0F2B00815656 /* Rectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80ABAF6125AA0F2B00815656 /* Rectangle.swift */; };
 		80ABAF6D25AA0FE300815656 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 80ABAF6C25AA0FE300815656 /* Shaders.metal */; };
@@ -67,6 +68,7 @@
 		805172C92650501F003F2068 /* ControllerHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerHandler.swift; sourceTree = "<group>"; };
 		805172CC265050DD003F2068 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/iOSSupport/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
 		8064F6E325B0B53600EE351D /* MotionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionHandler.swift; sourceTree = "<group>"; };
+		807FC881271C47AB00F052A9 /* Texture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Texture.swift; sourceTree = "<group>"; };
 		80ABAF5E25AA0F2B00815656 /* Drawable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawable.swift; sourceTree = "<group>"; };
 		80ABAF6125AA0F2B00815656 /* Rectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rectangle.swift; sourceTree = "<group>"; };
 		80ABAF6C25AA0FE300815656 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				8048FF3525D8671100F33353 /* Renderer.swift */,
 				80E2F776263DD6E600DC6AA6 /* Color.swift */,
 				8048068C26598FFD00E2EDC8 /* Polyline.swift */,
+				807FC881271C47AB00F052A9 /* Texture.swift */,
 			);
 			path = Graphics;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 				8064F6E425B0B53600EE351D /* MotionHandler.swift in Sources */,
 				8048068D26598FFD00E2EDC8 /* Polyline.swift in Sources */,
 				80ABAF6325AA0F2B00815656 /* Drawable.swift in Sources */,
+				807FC882271C47AB00F052A9 /* Texture.swift in Sources */,
 				8034BBD925AB259B0087E126 /* Geometry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
