@@ -13,6 +13,12 @@ struct ShaderVertex {
     var position: vector_float2
 }
 
+struct TexturedShaderVertex{
+    var textureCoordinate: vector_float2;
+    var position: vector_float2;
+};
+
+
 struct TransformParams{
     var location: vector_float2
 }

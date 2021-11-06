@@ -18,13 +18,17 @@ open class CPETexture: CPEDrawable {
     var locationOffest: simd_float2
     var renderPipelineState: MTLRenderPipelineState?
     
+    var vertexBuffer: MTLBuffer
+    var vertices: [TexturedShaderVertex]
+    
     public func draw(renderCommandEncoder: MTLRenderCommandEncoder) {
         var transformParams = TransformParams(location: locationOffest)
         
         renderCommandEncoder.setRenderPipelineState(self.renderPipelineState!)
-        //renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
-        //renderCommandEncoder.setVertexBytes(&transformParams, length: MemoryLayout<TransformParams>.stride, index: 1)
-        //renderCommandEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 6)
+        renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        renderCommandEncoder.setVertexBytes(&transformParams, length: MemoryLayout<TransformParams>.stride, index: 1)
+        renderCommandEncoder.setFragmentTexture(metalTexture, index: 0)
+        renderCommandEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: vertices.count)
     }
     
     
@@ -40,6 +44,9 @@ open class CPETexture: CPEDrawable {
         } catch {
             return nil;
         }
+        
+        self.vertices = CPETexture.createVertices(view: self.metalView, initSize: [0.5, 0.5], initLocation: [0.0, 0.0])
+        self.vertexBuffer = device.makeBuffer(bytes: vertices, length: vertices.count * MemoryLayout<TexturedShaderVertex>.stride, options: [])!
     }
     
     public func update() {
@@ -59,7 +66,6 @@ open class CPETexture: CPEDrawable {
     
     class func buildRenderPipelineWithDevice(device: MTLDevice,
                                              metalKitView: MTKView) throws -> MTLRenderPipelineState? {
-        /// Build a render state pipeline object
         
         guard let bundle = Bundle(identifier: "HubiDev.Copper") else {
             return nil
@@ -79,5 +85,34 @@ open class CPETexture: CPEDrawable {
         pipelineDescriptor.colorAttachments[0].pixelFormat = metalKitView.colorPixelFormat
         
         return try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
+    }
+    
+    class func createVertices(view: MTKView, initSize: simd_float2, initLocation: simd_float2) -> [ TexturedShaderVertex] {
+        
+        var ratioWidth: Float
+        var ratioHeight: Float
+        
+        let screenSize = view.drawableSize;
+        
+        if(screenSize.width >= screenSize.height){
+            ratioWidth = Float(screenSize.height / screenSize.width)
+            ratioHeight = 1.0
+            
+        } else {
+            ratioWidth = 1.0
+            ratioHeight = Float(screenSize.width / screenSize.height)
+            
+        }
+        
+        let adaptedWidth = initSize.x * ratioWidth
+        let adaptedHeight = initSize.y * ratioHeight
+        
+        
+        return [TexturedShaderVertex(textureCoordinate: [0.0, 0.0], position: initLocation),
+                TexturedShaderVertex(textureCoordinate: [0.0, 1.0], position: [initLocation.x, initLocation.y + adaptedHeight]),
+                TexturedShaderVertex(textureCoordinate: [1.0, 1.0], position: [initLocation.x + adaptedWidth, initLocation.y + adaptedHeight]),
+                TexturedShaderVertex(textureCoordinate: [0.0, 0.0], position: initLocation),
+                TexturedShaderVertex(textureCoordinate: [1.0, 1.0], position: [initLocation.x + adaptedWidth, initLocation.y + adaptedHeight]),
+                TexturedShaderVertex(textureCoordinate: [1.0, 0.0], position: [initLocation.x + adaptedWidth, initLocation.y])]
     }
 }
