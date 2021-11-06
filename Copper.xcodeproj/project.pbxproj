@@ -17,8 +17,6 @@
 		8048FF3225D866BE00F33353 /* GameBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8048FF3125D866BE00F33353 /* GameBase.swift */; };
 		8048FF3625D8671100F33353 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8048FF3525D8671100F33353 /* Renderer.swift */; };
 		805172CA2650501F003F2068 /* ControllerHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805172C92650501F003F2068 /* ControllerHandler.swift */; };
-		805172CE265050E4003F2068 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 805172CC265050DD003F2068 /* GameController.framework */; };
-		805172CF265050E4003F2068 /* GameController.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 805172CC265050DD003F2068 /* GameController.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8064F6E425B0B53600EE351D /* MotionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8064F6E325B0B53600EE351D /* MotionHandler.swift */; };
 		807FC882271C47AB00F052A9 /* Texture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807FC881271C47AB00F052A9 /* Texture.swift */; };
 		80ABAF6325AA0F2B00815656 /* Drawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80ABAF5E25AA0F2B00815656 /* Drawable.swift */; };
@@ -37,20 +35,6 @@
 			remoteInfo = Copper;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		805172D0265050E4003F2068 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				805172CF265050E4003F2068 /* GameController.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		80267FD325A9FCB200AF891B /* Copper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Copper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,7 +65,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				805172CE265050E4003F2068 /* GameController.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,7 +192,6 @@
 				80267FCF25A9FCB200AF891B /* Sources */,
 				80267FD025A9FCB200AF891B /* Frameworks */,
 				80267FD125A9FCB200AF891B /* Resources */,
-				805172D0265050E4003F2068 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
