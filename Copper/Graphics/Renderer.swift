@@ -26,6 +26,8 @@ open class CPERenderer: NSObject, MTKViewDelegate {
         beforeDrawAction = {}
         
         super.init()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(CPERenderer.orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     public func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
@@ -66,6 +68,13 @@ open class CPERenderer: NSObject, MTKViewDelegate {
             }
             
             commandBuffer.commit()
+        }
+    }
+    
+    @objc
+    func orientationChanged() {
+        for currentElement in elementsToDraw {
+            currentElement.handleOrientationChange()
         }
     }
 }

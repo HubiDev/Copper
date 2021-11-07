@@ -12,8 +12,9 @@ import simd
 
 @available(iOS 10.0, *)
 open class CPERectangle: CPEDrawable {
-    
-    let device: MTLDevice
+
+    let metalDevice: MTLDevice
+    let metalView: MTKView
     
     var renderPiplineState: MTLRenderPipelineState!
     var vertexBuffer: MTLBuffer
@@ -26,7 +27,8 @@ open class CPERectangle: CPEDrawable {
     
     public init?(view: MTKView, device: MTLDevice, initLocation: simd_float2, initSize: simd_float2) {
         
-        self.device = device
+        self.metalDevice = device
+        self.metalView = view
         location = initLocation
         size = initSize
         locationOffest = [0,0]
@@ -106,6 +108,11 @@ open class CPERectangle: CPEDrawable {
         
     }
     
+    public func handleOrientationChange() {
+        vertices = CPERectangle.createVertices(view: metalView, initSize: size, initLocation: location)
+        vertexBuffer = metalDevice.makeBuffer(bytes: vertices, length: vertices.count * MemoryLayout<ShaderVertex>.stride, options: [])!
+    }
+    
     public func getLocation() -> simd_float2 {
         return (location + locationOffest)
     }
@@ -126,7 +133,7 @@ open class CPERectangle: CPEDrawable {
             self.vertices[i].color = newColor.getValue()
         }
         
-        self.vertexBuffer = self.device.makeBuffer(bytes: vertices, length: vertices.count * MemoryLayout<ShaderVertex>.stride, options: [])!
+        self.vertexBuffer = self.metalDevice.makeBuffer(bytes: vertices, length: vertices.count * MemoryLayout<ShaderVertex>.stride, options: [])!
     }
     
     public func getSize() -> simd_float2 {

@@ -9,7 +9,7 @@ import Foundation
 import MetalKit
 
 open class CPETexture: CPEDrawable {
-    
+        
     let metalView: MTKView
     let metalDevice: MTLDevice
     let bundle: Bundle
@@ -20,17 +20,6 @@ open class CPETexture: CPEDrawable {
     
     var vertexBuffer: MTLBuffer
     var vertices: [TexturedShaderVertex]
-    
-    public func draw(renderCommandEncoder: MTLRenderCommandEncoder) {
-        var transformParams = TransformParams(location: locationOffest)
-        
-        renderCommandEncoder.setRenderPipelineState(self.renderPipelineState!)
-        renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
-        renderCommandEncoder.setVertexBytes(&transformParams, length: MemoryLayout<TransformParams>.stride, index: 1)
-        renderCommandEncoder.setFragmentTexture(metalTexture, index: 0)
-        renderCommandEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: vertices.count)
-    }
-    
     
     public init?(_ view: MTKView, _ device: MTLDevice, _ textureName: String, _ bundle: Bundle) {
         self.metalView = view
@@ -47,6 +36,21 @@ open class CPETexture: CPEDrawable {
         
         self.vertices = CPETexture.createVertices(view: self.metalView, initSize: [0.5, 0.5], initLocation: [0.0, 0.0])
         self.vertexBuffer = device.makeBuffer(bytes: vertices, length: vertices.count * MemoryLayout<TexturedShaderVertex>.stride, options: [])!
+    }
+    
+    public func draw(renderCommandEncoder: MTLRenderCommandEncoder) {
+        var transformParams = TransformParams(location: locationOffest)
+        
+        renderCommandEncoder.setRenderPipelineState(self.renderPipelineState!)
+        renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        renderCommandEncoder.setVertexBytes(&transformParams, length: MemoryLayout<TransformParams>.stride, index: 1)
+        renderCommandEncoder.setFragmentTexture(metalTexture, index: 0)
+        renderCommandEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: vertices.count)
+    }
+    
+    public func handleOrientationChange() {
+        self.vertices = CPETexture.createVertices(view: self.metalView, initSize: [0.5, 0.5], initLocation: [0.0, 0.0])
+        self.vertexBuffer = self.metalDevice.makeBuffer(bytes: vertices, length: vertices.count * MemoryLayout<TexturedShaderVertex>.stride, options: [])!
     }
     
     public func update() {

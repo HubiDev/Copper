@@ -10,5 +10,6 @@ import Metal
 
 
 public protocol CPEDrawable {
-    func draw(renderCommandEncoder: MTLRenderCommandEncoder) -> Void
+    func draw(renderCommandEncoder: MTLRenderCommandEncoder)
+    func handleOrientationChange()
 }
