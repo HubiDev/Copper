@@ -46,6 +46,12 @@ open class CPEGameBase {
         }
     }
     
+    open func loadContent() -> Void {
+        for currentElement in elements {
+            currentElement.loadContent()
+        }
+    }
+    
     open func getElements<T>() -> [T] {
         let filtered = elements.filter{$0 is T}
         return filtered as! [T];
