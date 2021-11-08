@@ -41,7 +41,7 @@ open class CPEPolyline : CPEDrawable
         renderCommandEncoder.setRenderPipelineState(renderPipelineState!)
         renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         renderCommandEncoder.setVertexBytes(&transformParams, length: MemoryLayout<TransformParams>.stride, index: 1)
-        renderCommandEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 6)
+        renderCommandEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: self.vertices.count)
     }
     
     class func buildRenderPipelineWithDevice(device: MTLDevice,
@@ -82,6 +82,7 @@ open class CPEPolyline : CPEDrawable
                 
                 if points.count > 1 {
                     render()
+                    print("rendering polyline")
                 }
             }
         }
