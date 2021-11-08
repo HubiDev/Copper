@@ -16,7 +16,7 @@ open class CPERectangle: CPEDrawable {
     let metalDevice: MTLDevice
     let metalView: MTKView
     
-    var renderPiplineState: MTLRenderPipelineState!
+    var renderPipelineState: MTLRenderPipelineState!
     var vertexBuffer: MTLBuffer
     
     let location: simd_float2
@@ -34,7 +34,7 @@ open class CPERectangle: CPEDrawable {
         locationOffest = [0,0]
 
         do {
-            renderPiplineState = try CPERectangle.buildRenderPipelineWithDevice(device: device, metalKitView: view)
+            renderPipelineState = try CPERectangle.buildRenderPipelineWithDevice(device: device, metalKitView: view)
         } catch {
             return nil
         }
@@ -101,7 +101,7 @@ open class CPERectangle: CPEDrawable {
         
         var transformParams = TransformParams(location: locationOffest)
         
-        renderCommandEncoder.setRenderPipelineState(renderPiplineState)
+        renderCommandEncoder.setRenderPipelineState(renderPipelineState)
         renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         renderCommandEncoder.setVertexBytes(&transformParams, length: MemoryLayout<TransformParams>.stride, index: 1)
         renderCommandEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 6)

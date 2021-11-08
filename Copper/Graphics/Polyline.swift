@@ -6,16 +6,96 @@
 //
 
 import Foundation
+import MetalKit
 import simd
 
-open class Polyline
+open class CPEPolyline : CPEDrawable
 {
-    public init(thickness: Float) {
+    let metalDevice: MTLDevice
+    let metalView: MTKView
+    
+    var points: [simd_float2] = [simd_float2]()
+    var vertices: [ShaderVertex] = [ShaderVertex]()
+    var vertexBuffer: MTLBuffer? = nil
+    
+    var thickness: Float = 0.01
+    var color: simd_float4 = [0.5, 0.5, 0.5, 1.0]
+    
+    var renderPipelineState: MTLRenderPipelineState? = nil
+    
+    public init?(_ view: MTKView, _ thickness: Float) {
+        self.metalView = view
+        self.metalDevice = view.device!
         self.thickness = thickness
+        
+        do {
+            self.renderPipelineState = try CPEPolyline.buildRenderPipelineWithDevice(device: self.metalDevice, metalKitView: self.metalView)
+        } catch {
+            return nil;
+        }
+    }
+    
+    public func draw(renderCommandEncoder: MTLRenderCommandEncoder) {
+        var transformParams = TransformParams(location: [0.0,0.0]) // TODO currently not supported
+        
+        renderCommandEncoder.setRenderPipelineState(renderPipelineState!)
+        renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        renderCommandEncoder.setVertexBytes(&transformParams, length: MemoryLayout<TransformParams>.stride, index: 1)
+        renderCommandEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 6)
+    }
+    
+    class func buildRenderPipelineWithDevice(device: MTLDevice,
+                                             metalKitView: MTKView) throws -> MTLRenderPipelineState? {
+
+        // TODO common code: reduce duplications
+        guard let bundle = Bundle(identifier: "HubiDev.Copper") else {
+            return nil
+        }
+        
+        let library = try? device.makeDefaultLibrary(bundle: bundle)
+        
+        let vertexFunction = library?.makeFunction(name: "vertexShader")
+        let fragmentFunction = library?.makeFunction(name: "fragmentShader")
+        
+        let pipelineDescriptor = MTLRenderPipelineDescriptor()
+        pipelineDescriptor.label = "RenderPipeline"
+        pipelineDescriptor.sampleCount = metalKitView.sampleCount
+        pipelineDescriptor.vertexFunction = vertexFunction
+        pipelineDescriptor.fragmentFunction = fragmentFunction
+        
+        pipelineDescriptor.colorAttachments[0].pixelFormat = metalKitView.colorPixelFormat
+        
+        return try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
+    }
+    
+    public func handleOrientationChange() {
+        
     }
     
     public func appendPoint(point: simd_float2) -> Void {
-        points.append(point)
+        
+        if points.isEmpty {
+            points.append(point)
+        } else {
+            if filterPoint(point: point, front: false) {
+                points.append(point)
+                
+                if points.count > 1 {
+                    render()
+                }
+            }
+        }
+    }
+    
+    private func filterPoint(point: simd_float2, front: Bool) -> Bool {
+        let pointToCompare = front ? points.first : points.last
+        
+        if pointToCompare != point {
+            // todo: check wether minimal distance is covered
+            return true
+        }
+        
+        return false
     }
     
     private func render() {
@@ -49,6 +129,8 @@ open class Polyline
             vertices.append(ShaderVertex(color: self.color, position: upperRightPoint))
             vertices.append(ShaderVertex(color: self.color, position: lowerRightPoint))
         }
+        
+        self.vertexBuffer = metalDevice.makeBuffer(bytes: vertices, length: vertices.count * MemoryLayout<ShaderVertex>.stride, options: [])!
     }
     
     private func calcLineSegment(_ startPoint: simd_float2, _ endPoint: simd_float2) -> (simd_float2, simd_float2, simd_float2, simd_float2) {
@@ -57,10 +139,10 @@ open class Polyline
         var orthoVector = calcOrthoVector(vectorBetweenPoints)
         orthoVector = calcUnitVector(orthoVector)
         
-        var lowerLeftPoint: simd_float2 = []
-        var upperLeftPoint: simd_float2 = []
-        var upperRightPoint: simd_float2 = []
-        var lowerRightPoint: simd_float2 = []
+        var lowerLeftPoint: simd_float2 = [0.0, 0.0]
+        var upperLeftPoint: simd_float2 = [0.0, 0.0]
+        var upperRightPoint: simd_float2 = [0.0, 0.0]
+        var lowerRightPoint: simd_float2 = [0.0, 0.0]
 
         lowerLeftPoint.x = startPoint.x + ((-1.0) * thickness * orthoVector.x);
         lowerLeftPoint.y = startPoint.y + ((-1.0) * thickness * orthoVector.y);
@@ -74,9 +156,6 @@ open class Polyline
         return (lowerLeftPoint, upperLeftPoint, upperRightPoint, lowerRightPoint)
     }
     
-    var points: [simd_float2] = [simd_float2]()
-    var vertices: [ShaderVertex] = [ShaderVertex]()
-    var thickness: Float
-    var color: simd_float4 = [0.5, 0.5, 0.5, 1.0]
+
         
 }
