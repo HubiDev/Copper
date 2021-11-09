@@ -10,6 +10,7 @@
 		80267FDD25A9FCB300AF891B /* Copper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80267FD325A9FCB200AF891B /* Copper.framework */; };
 		80267FE225A9FCB300AF891B /* CopperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80267FE125A9FCB300AF891B /* CopperTests.swift */; };
 		80267FE425A9FCB300AF891B /* Copper.h in Headers */ = {isa = PBXBuildFile; fileRef = 80267FD625A9FCB200AF891B /* Copper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8028C9AD273B05580030B891 /* TouchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8028C9AC273B05580030B891 /* TouchHandler.swift */; };
 		8034BBD925AB259B0087E126 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034BBD825AB259B0087E126 /* Geometry.swift */; };
 		8034BBDD25AB28790087E126 /* GeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034BBDC25AB28790087E126 /* GeometryTests.swift */; };
 		803F4A2225D9180F00B76FA0 /* GameElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803F4A2125D9180F00B76FA0 /* GameElement.swift */; };
@@ -43,6 +44,7 @@
 		80267FDC25A9FCB300AF891B /* CopperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CopperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		80267FE125A9FCB300AF891B /* CopperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopperTests.swift; sourceTree = "<group>"; };
 		80267FE325A9FCB300AF891B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8028C9AC273B05580030B891 /* TouchHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchHandler.swift; sourceTree = "<group>"; };
 		8034BBD825AB259B0087E126 /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
 		8034BBDC25AB28790087E126 /* GeometryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryTests.swift; sourceTree = "<group>"; };
 		803F4A2125D9180F00B76FA0 /* GameElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameElement.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 			children = (
 				8064F6E325B0B53600EE351D /* MotionHandler.swift */,
 				805172C92650501F003F2068 /* ControllerHandler.swift */,
+				8028C9AC273B05580030B891 /* TouchHandler.swift */,
 			);
 			path = Input;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 				805172CA2650501F003F2068 /* ControllerHandler.swift in Sources */,
 				80ABAF6D25AA0FE300815656 /* Shaders.metal in Sources */,
 				80ABAF6425AA0F2B00815656 /* Rectangle.swift in Sources */,
+				8028C9AD273B05580030B891 /* TouchHandler.swift in Sources */,
 				8064F6E425B0B53600EE351D /* MotionHandler.swift in Sources */,
 				8048068D26598FFD00E2EDC8 /* Polyline.swift in Sources */,
 				80ABAF6325AA0F2B00815656 /* Drawable.swift in Sources */,
