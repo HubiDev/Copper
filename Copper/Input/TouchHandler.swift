@@ -8,11 +8,13 @@
 import Foundation
 import UIKit
 import MetalKit
+import simd
 
 open class CPETouchHandler {
     
     var metalView: MTKView
     var tapGestureRecognizer: UITapGestureRecognizer? = nil
+    var lastPoints: [simd_float2] = []
     
     public init(_ view: MTKView) {
         metalView = view

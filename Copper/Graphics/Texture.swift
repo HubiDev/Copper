@@ -99,31 +99,14 @@ open class CPETexture: CPEDrawable {
     }
     
     class func createVertices(view: MTKView, initSize: simd_float2, initLocation: simd_float2) -> [ TexturedShaderVertex] {
-        
-        var ratioWidth: Float
-        var ratioHeight: Float
-        
-        let screenSize = view.drawableSize;
-        
-        if(screenSize.width >= screenSize.height){
-            ratioWidth = Float(screenSize.height / screenSize.width)
-            ratioHeight = 1.0
-            
-        } else {
-            ratioWidth = 1.0
-            ratioHeight = Float(screenSize.width / screenSize.height)
-            
-        }
-        
-        let adaptedWidth = initSize.x * ratioWidth
-        let adaptedHeight = initSize.y * ratioHeight
-        
+                
+        let adaptedSize = initSize * view.getAspectRatio()
         
         return [TexturedShaderVertex(textureCoordinate: [0.0, 0.0], position: initLocation),
-                TexturedShaderVertex(textureCoordinate: [0.0, 1.0], position: [initLocation.x, initLocation.y + adaptedHeight]),
-                TexturedShaderVertex(textureCoordinate: [1.0, 1.0], position: [initLocation.x + adaptedWidth, initLocation.y + adaptedHeight]),
+                TexturedShaderVertex(textureCoordinate: [0.0, 1.0], position: [initLocation.x, initLocation.y + adaptedSize.y]),
+                TexturedShaderVertex(textureCoordinate: [1.0, 1.0], position: [initLocation.x + adaptedSize.x, initLocation.y + adaptedSize.y]),
                 TexturedShaderVertex(textureCoordinate: [0.0, 0.0], position: initLocation),
-                TexturedShaderVertex(textureCoordinate: [1.0, 1.0], position: [initLocation.x + adaptedWidth, initLocation.y + adaptedHeight]),
-                TexturedShaderVertex(textureCoordinate: [1.0, 0.0], position: [initLocation.x + adaptedWidth, initLocation.y])]
+                TexturedShaderVertex(textureCoordinate: [1.0, 1.0], position: [initLocation.x + adaptedSize.x, initLocation.y + adaptedSize.y]),
+                TexturedShaderVertex(textureCoordinate: [1.0, 0.0], position: [initLocation.x + adaptedSize.x, initLocation.y])]
     }
 }

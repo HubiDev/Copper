@@ -46,31 +46,15 @@ open class CPERectangle: CPEDrawable {
     
     class func createVertices(view: MTKView, initSize: simd_float2, initLocation: simd_float2) -> [ShaderVertex] {
         
-        var ratioWidth: Float
-        var ratioHeight: Float
-        
-        let screenSize = view.drawableSize;
-        
-        if(screenSize.width >= screenSize.height){
-            ratioWidth = Float(screenSize.height / screenSize.width)
-            ratioHeight = 1.0
-            
-        } else {
-            ratioWidth = 1.0
-            ratioHeight = Float(screenSize.width / screenSize.height)
-            
-        }
-        
-        let adaptedWidth = initSize.x * ratioWidth
-        let adaptedHeight = initSize.y * ratioHeight
+        let adaptedSize = initSize * view.getAspectRatio()
         
         
         return [ShaderVertex(color: CPEBlue.getValue(), position: initLocation),
-                ShaderVertex(color: CPEBlue.getValue(), position: [initLocation.x, initLocation.y + adaptedHeight]),
-                ShaderVertex(color: CPEBlue.getValue(), position: [initLocation.x + adaptedWidth, initLocation.y + adaptedHeight]),
+                ShaderVertex(color: CPEBlue.getValue(), position: [initLocation.x, initLocation.y + adaptedSize.y]),
+                ShaderVertex(color: CPEBlue.getValue(), position: [initLocation.x + adaptedSize.x, initLocation.y + adaptedSize.y]),
                ShaderVertex(color: CPEBlue.getValue(), position: initLocation),
-               ShaderVertex(color: CPEBlue.getValue(), position: [initLocation.x + adaptedWidth, initLocation.y + adaptedHeight]),
-               ShaderVertex(color: CPEBlue.getValue(), position: [initLocation.x + adaptedWidth, initLocation.y])]
+                ShaderVertex(color: CPEBlue.getValue(), position: [initLocation.x + adaptedSize.x, initLocation.y + adaptedSize.y]),
+                ShaderVertex(color: CPEBlue.getValue(), position: [initLocation.x + adaptedSize.x, initLocation.y])]
     }
     
     class func buildRenderPipelineWithDevice(device: MTLDevice,
