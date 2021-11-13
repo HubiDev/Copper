@@ -77,11 +77,13 @@ open class CPEPolyline : CPEDrawable
     
     public func appendPoint(point: simd_float2) -> Void {
         
+        let adaptedPoint = point * simd_float2(1.0, 1.0/0.5622189)
+        
         if points.isEmpty {
-            points.append(point)
+            points.append(adaptedPoint)
         } else {
-            if filterPoint(point: point, front: false) {
-                points.append(point)
+            if filterPoint(point: adaptedPoint, front: false) {
+                points.append(adaptedPoint)
                 
                 if points.count > 1 {
                     render()
