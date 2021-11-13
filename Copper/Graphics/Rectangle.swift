@@ -83,7 +83,7 @@ open class CPERectangle: CPEDrawable {
     
     public func draw(renderCommandEncoder: MTLRenderCommandEncoder) -> Void {
         
-        var transformParams = TransformParams(location: locationOffest)
+        var transformParams = TransformParams(location: locationOffest, aspectRatio: self.metalView.getAspectRatio(), rotation: 0.0)
         
         renderCommandEncoder.setRenderPipelineState(renderPipelineState)
         renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)

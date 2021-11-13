@@ -38,7 +38,7 @@ open class CPEPolyline : CPEDrawable
     public func draw(renderCommandEncoder: MTLRenderCommandEncoder) {
         
         if !self.vertices.isEmpty {
-            var transformParams = TransformParams(location: [0.0,0.0]) // TODO currently not supported
+            var transformParams = TransformParams(location: [0.0,0.0], aspectRatio: self.metalView.getAspectRatio(), rotation: 0.0)
             
             renderCommandEncoder.setRenderPipelineState(renderPipelineState!)
             renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)

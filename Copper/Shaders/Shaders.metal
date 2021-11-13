@@ -18,12 +18,14 @@ struct ShaderVertex{
 };
 
 struct TexturedShaderVertex{
-    vector_float2 textureCoordinate;
+    vector_float2 texture_coordinate;
     vector_float2 position;
 };
 
 struct TransformParams{
     vector_float2 position;
+    vector_float2 aspect_ratio;
+    float rotation;
 };
 
 
@@ -33,7 +35,7 @@ struct VertexOut {
 };
 
 struct TexturedVertexOut {
-    float2 textureCoordinate;
+    float2 texture_coordinate;
     float4 position [[position]];
 };
 
@@ -50,14 +52,13 @@ vertex VertexOut vertexShader(const device ShaderVertex* vertexArray [[buffer(0)
     
     VertexOut out;
     
-    auto rotated_position = in.position * calc_rotation_matrix(0.0);
-    float2 view_aspect_ratio{1.f, 0.5622189f};
-    auto normalized_position = rotated_position * view_aspect_ratio;
+    auto rotated_position = in.position * calc_rotation_matrix(transform->rotation);
+    auto clip_space_position = rotated_position * transform->aspect_ratio;
     
     // Pass the vertex color directly to the rasterizer
     out.color = in.color;
     // Pass the already normalized screen-space coordinates to the rasterizer
-    out.pos = float4(normalized_position.x + transform->position.x, normalized_position.y + transform->position.y, 0, 1);
+    out.pos = float4(clip_space_position.x + transform->position.x, clip_space_position.y + transform->position.y, 0, 1);
     
     return out;
 }
@@ -72,13 +73,12 @@ vertex TexturedVertexOut textureVertexShader(const device TexturedShaderVertex* 
     TexturedVertexOut out;
     // Get the data for the current vertex.
     auto in = vertexArray[vid];
-    auto rotated_position = in.position * calc_rotation_matrix(1.5f);
+    auto rotated_position = in.position * calc_rotation_matrix(transform->rotation);
     
-    float2 view_aspect_ratio{1.f, 0.5622189f};
-    auto normalized_position = rotated_position * view_aspect_ratio;
+    auto clip_space_position = rotated_position * transform->aspect_ratio;
     
-    out.position = float4(normalized_position.x + transform->position.x, normalized_position.y + transform->position.y, 0, 1);
-    out.textureCoordinate = vertexArray[vid].textureCoordinate;
+    out.position = float4(clip_space_position.x + transform->position.x, clip_space_position.y + transform->position.y, 0, 1);
+    out.texture_coordinate = vertexArray[vid].texture_coordinate;
     
     return out;
 }
@@ -87,7 +87,7 @@ fragment float4 textureFragmentShader(TexturedVertexOut in [[stage_in]], texture
 {
     constexpr sampler textureSampler(mag_filter::linear, min_filter::linear);
     
-    const auto colorSample = colorTexture.sample(textureSampler, in.textureCoordinate);
+    const auto colorSample = colorTexture.sample(textureSampler, in.texture_coordinate);
     
     return float4(colorSample);
 }

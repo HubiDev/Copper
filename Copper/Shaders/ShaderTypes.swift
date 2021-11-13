@@ -21,4 +21,6 @@ struct TexturedShaderVertex{
 
 struct TransformParams{
     var location: vector_float2
+    var aspectRatio: vector_float2
+    var rotation: simd_float1
 }
