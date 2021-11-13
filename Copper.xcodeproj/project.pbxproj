@@ -26,6 +26,7 @@
 		80ABAF6D25AA0FE300815656 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 80ABAF6C25AA0FE300815656 /* Shaders.metal */; };
 		80ABAF7F25AA13FC00815656 /* ShaderTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80ABAF7E25AA13FC00815656 /* ShaderTypes.swift */; };
 		80E2F777263DD6E600DC6AA6 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E2F776263DD6E600DC6AA6 /* Color.swift */; };
+		80F0501927402F7500B615E5 /* DrawableBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F0501827402F7500B615E5 /* DrawableBase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		80ABAF6C25AA0FE300815656 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		80ABAF7E25AA13FC00815656 /* ShaderTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderTypes.swift; sourceTree = "<group>"; };
 		80E2F776263DD6E600DC6AA6 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		80F0501827402F7500B615E5 /* DrawableBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawableBase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +165,7 @@
 				8048068C26598FFD00E2EDC8 /* Polyline.swift */,
 				807FC881271C47AB00F052A9 /* Texture.swift */,
 				80267370273C518F0078E705 /* ViewExtensions.swift */,
+				80F0501827402F7500B615E5 /* DrawableBase.swift */,
 			);
 			path = Graphics;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				80ABAF6425AA0F2B00815656 /* Rectangle.swift in Sources */,
 				8028C9AD273B05580030B891 /* TouchHandler.swift in Sources */,
 				8064F6E425B0B53600EE351D /* MotionHandler.swift in Sources */,
+				80F0501927402F7500B615E5 /* DrawableBase.swift in Sources */,
 				8048068D26598FFD00E2EDC8 /* Polyline.swift in Sources */,
 				80ABAF6325AA0F2B00815656 /* Drawable.swift in Sources */,
 				807FC882271C47AB00F052A9 /* Texture.swift in Sources */,

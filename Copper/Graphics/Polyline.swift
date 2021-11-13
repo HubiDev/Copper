@@ -85,7 +85,6 @@ open class CPEPolyline : CPEDrawable
                 
                 if points.count > 1 {
                     render()
-                    print("rendering polyline")
                 }
             }
         }

@@ -37,6 +37,12 @@ struct TexturedVertexOut {
     float4 position [[position]];
 };
 
+matrix_float2x2 calc_rotation_matrix(float rotation)
+{
+    return matrix_float2x2{{cos(rotation), -sin(rotation)}, {sin(rotation), cos(rotation)}};
+}
+
+
 vertex VertexOut vertexShader(const device ShaderVertex* vertexArray [[buffer(0)]], const device TransformParams* transform, unsigned int vid [[vertex_id]])
 {
     // Get the data for the current vertex.
@@ -44,10 +50,12 @@ vertex VertexOut vertexShader(const device ShaderVertex* vertexArray [[buffer(0)
     
     VertexOut out;
     
+    auto rotated_position = in.position * calc_rotation_matrix(0.0);
+    
     // Pass the vertex color directly to the rasterizer
     out.color = in.color;
     // Pass the already normalized screen-space coordinates to the rasterizer
-    out.pos = float4(in.position.x + transform->position.x, in.position.y + transform->position.y, 0, 1);
+    out.pos = float4(rotated_position.x + transform->position.x, rotated_position.y + transform->position.y, 0, 1);
     
     return out;
 }
@@ -62,8 +70,9 @@ vertex TexturedVertexOut textureVertexShader(const device TexturedShaderVertex* 
     TexturedVertexOut out;
     // Get the data for the current vertex.
     auto in = vertexArray[vid];
+    auto rotated_position = in.position * calc_rotation_matrix(3.1415);
     
-    out.position = float4(in.position.x + transform->position.x, in.position.y + transform->position.y, 0, 1);
+    out.position = float4(rotated_position.x + transform->position.x, rotated_position.y + transform->position.y, 0, 1);
     out.textureCoordinate = vertexArray[vid].textureCoordinate;
     
     return out;
