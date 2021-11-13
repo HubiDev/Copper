@@ -99,14 +99,12 @@ open class CPETexture: CPEDrawable {
     }
     
     class func createVertices(view: MTKView, initSize: simd_float2, initLocation: simd_float2) -> [ TexturedShaderVertex] {
-                
-        let adaptedSize = initSize * view.getAspectRatio()
         
         return [TexturedShaderVertex(textureCoordinate: [0.0, 0.0], position: initLocation),
-                TexturedShaderVertex(textureCoordinate: [0.0, 1.0], position: [initLocation.x, initLocation.y + adaptedSize.y]),
-                TexturedShaderVertex(textureCoordinate: [1.0, 1.0], position: [initLocation.x + adaptedSize.x, initLocation.y + adaptedSize.y]),
+                TexturedShaderVertex(textureCoordinate: [0.0, 1.0], position: [initLocation.x, initLocation.y + initSize.y]),
+                TexturedShaderVertex(textureCoordinate: [1.0, 1.0], position: [initLocation.x + initSize.x, initLocation.y + initSize.y]),
                 TexturedShaderVertex(textureCoordinate: [0.0, 0.0], position: initLocation),
-                TexturedShaderVertex(textureCoordinate: [1.0, 1.0], position: [initLocation.x + adaptedSize.x, initLocation.y + adaptedSize.y]),
-                TexturedShaderVertex(textureCoordinate: [1.0, 0.0], position: [initLocation.x + adaptedSize.x, initLocation.y])]
+                TexturedShaderVertex(textureCoordinate: [1.0, 1.0], position: [initLocation.x + initSize.x, initLocation.y + initSize.y]),
+                TexturedShaderVertex(textureCoordinate: [1.0, 0.0], position: [initLocation.x + initSize.x, initLocation.y])]
     }
 }

@@ -20,7 +20,7 @@ open class CPETouchHandler {
     
     public init(_ view: MTKView) {
         metalView = view
-        print(view.drawableSize)
+        print(view.getAspectRatio())
         gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(CPETouchHandler.handlePan))
         gestureRecognizer?.maximumNumberOfTouches = 1
         

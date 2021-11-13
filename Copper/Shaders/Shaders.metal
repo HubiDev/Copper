@@ -51,11 +51,13 @@ vertex VertexOut vertexShader(const device ShaderVertex* vertexArray [[buffer(0)
     VertexOut out;
     
     auto rotated_position = in.position * calc_rotation_matrix(0.0);
+    float2 view_aspect_ratio{1.f, 0.5622189f};
+    auto normalized_position = rotated_position * view_aspect_ratio;
     
     // Pass the vertex color directly to the rasterizer
     out.color = in.color;
     // Pass the already normalized screen-space coordinates to the rasterizer
-    out.pos = float4(rotated_position.x + transform->position.x, rotated_position.y + transform->position.y, 0, 1);
+    out.pos = float4(normalized_position.x + transform->position.x, normalized_position.y + transform->position.y, 0, 1);
     
     return out;
 }
@@ -70,9 +72,12 @@ vertex TexturedVertexOut textureVertexShader(const device TexturedShaderVertex* 
     TexturedVertexOut out;
     // Get the data for the current vertex.
     auto in = vertexArray[vid];
-    auto rotated_position = in.position * calc_rotation_matrix(3.1415);
+    auto rotated_position = in.position * calc_rotation_matrix(1.5f);
     
-    out.position = float4(rotated_position.x + transform->position.x, rotated_position.y + transform->position.y, 0, 1);
+    float2 view_aspect_ratio{1.f, 0.5622189f};
+    auto normalized_position = rotated_position * view_aspect_ratio;
+    
+    out.position = float4(normalized_position.x + transform->position.x, normalized_position.y + transform->position.y, 0, 1);
     out.textureCoordinate = vertexArray[vid].textureCoordinate;
     
     return out;
