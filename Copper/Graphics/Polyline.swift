@@ -36,12 +36,15 @@ open class CPEPolyline : CPEDrawable
     }
     
     public func draw(renderCommandEncoder: MTLRenderCommandEncoder) {
-        var transformParams = TransformParams(location: [0.0,0.0]) // TODO currently not supported
         
-        renderCommandEncoder.setRenderPipelineState(renderPipelineState!)
-        renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
-        renderCommandEncoder.setVertexBytes(&transformParams, length: MemoryLayout<TransformParams>.stride, index: 1)
-        renderCommandEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: self.vertices.count)
+        if !self.vertices.isEmpty {
+            var transformParams = TransformParams(location: [0.0,0.0]) // TODO currently not supported
+            
+            renderCommandEncoder.setRenderPipelineState(renderPipelineState!)
+            renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+            renderCommandEncoder.setVertexBytes(&transformParams, length: MemoryLayout<TransformParams>.stride, index: 1)
+            renderCommandEncoder.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: self.vertices.count)
+        }
     }
     
     class func buildRenderPipelineWithDevice(device: MTLDevice,
