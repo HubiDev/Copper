@@ -10,7 +10,6 @@ import Metal
 import MetalKit
 import simd
 
-@available(iOS 10.0, *)
 open class CPERectangle: CPEDrawable {
 
     let metalDevice: MTLDevice
@@ -46,7 +45,7 @@ open class CPERectangle: CPEDrawable {
     
     class func createVertices(view: MTKView, initSize: simd_float2, initLocation: simd_float2) -> [ShaderVertex] {
         
-        // Move texture so that is centered above the desired location
+        // Move rectangle so that is centered above the desired location
         let centeredLocation = initLocation - (initSize / 2.0);
         
         return [ShaderVertex(color: CPEBlue.getValue(), position: centeredLocation),

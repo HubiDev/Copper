@@ -16,7 +16,7 @@ open class CPETexture: CPEDrawable {
     let name: String
     var metalTexture: MTLTexture?
     
-    var locationOffest: simd_float2 = [0.0, 0.0]
+    public var location: simd_float2 = [0.0, 0.0]
     public var rotation: Float = 0.0
     
     var renderPipelineState: MTLRenderPipelineState?
@@ -24,9 +24,9 @@ open class CPETexture: CPEDrawable {
     var vertexBuffer: MTLBuffer
     var vertices: [TexturedShaderVertex]
     
-    public init?(_ view: MTKView, _ device: MTLDevice, _ textureName: String, _ bundle: Bundle) {
+    public init?(_ view: MTKView, _ textureName: String, _ bundle: Bundle) {
         self.metalView = view
-        self.metalDevice = device
+        self.metalDevice = view.device!
         self.name = textureName
         self.bundle = bundle
         
@@ -37,11 +37,11 @@ open class CPETexture: CPEDrawable {
         }
         
         self.vertices = CPETexture.createVertices(view: self.metalView, initSize: [0.5, 0.5], initLocation: [0.0, 0.0])
-        self.vertexBuffer = device.makeBuffer(bytes: vertices, length: vertices.count * MemoryLayout<TexturedShaderVertex>.stride, options: [])!
+        self.vertexBuffer = self.metalDevice.makeBuffer(bytes: vertices, length: vertices.count * MemoryLayout<TexturedShaderVertex>.stride, options: [])!
     }
     
     public func draw(renderCommandEncoder: MTLRenderCommandEncoder) {
-        var transformParams = TransformParams(location: locationOffest, aspectRatio: self.metalView.getAspectRatio(), rotation: self.rotation)
+        var transformParams = TransformParams(location: self.location, aspectRatio: self.metalView.getAspectRatio(), rotation: self.rotation)
         
         renderCommandEncoder.setRenderPipelineState(self.renderPipelineState!)
         renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
