@@ -98,11 +98,14 @@ open class CPETexture: CPEDrawable {
     
     class func createVertices(view: MTKView, initSize: simd_float2, initLocation: simd_float2) -> [ TexturedShaderVertex] {
         
-        return [TexturedShaderVertex(textureCoordinate: [0.0, 0.0], position: initLocation),
-                TexturedShaderVertex(textureCoordinate: [0.0, 1.0], position: [initLocation.x, initLocation.y + initSize.y]),
-                TexturedShaderVertex(textureCoordinate: [1.0, 1.0], position: [initLocation.x + initSize.x, initLocation.y + initSize.y]),
-                TexturedShaderVertex(textureCoordinate: [0.0, 0.0], position: initLocation),
-                TexturedShaderVertex(textureCoordinate: [1.0, 1.0], position: [initLocation.x + initSize.x, initLocation.y + initSize.y]),
-                TexturedShaderVertex(textureCoordinate: [1.0, 0.0], position: [initLocation.x + initSize.x, initLocation.y])]
+        // Move texture so that is centered above the desired location
+        let centeredLocation = initLocation - (initSize / 2.0);
+        
+        return [TexturedShaderVertex(textureCoordinate: [0.0, 0.0], position: centeredLocation),
+                TexturedShaderVertex(textureCoordinate: [0.0, 1.0], position: [centeredLocation.x, centeredLocation.y + initSize.y]),
+                TexturedShaderVertex(textureCoordinate: [1.0, 1.0], position: [centeredLocation.x + initSize.x, centeredLocation.y + initSize.y]),
+                TexturedShaderVertex(textureCoordinate: [0.0, 0.0], position: centeredLocation),
+                TexturedShaderVertex(textureCoordinate: [1.0, 1.0], position: [centeredLocation.x + initSize.x, centeredLocation.y + initSize.y]),
+                TexturedShaderVertex(textureCoordinate: [1.0, 0.0], position: [centeredLocation.x + initSize.x, centeredLocation.y])]
     }
 }

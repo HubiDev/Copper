@@ -46,15 +46,15 @@ open class CPERectangle: CPEDrawable {
     
     class func createVertices(view: MTKView, initSize: simd_float2, initLocation: simd_float2) -> [ShaderVertex] {
         
-        let adaptedSize = initSize * view.getAspectRatio()
+        // Move texture so that is centered above the desired location
+        let centeredLocation = initLocation - (initSize / 2.0);
         
-        
-        return [ShaderVertex(color: CPEBlue.getValue(), position: initLocation),
-                ShaderVertex(color: CPEBlue.getValue(), position: [initLocation.x, initLocation.y + adaptedSize.y]),
-                ShaderVertex(color: CPEBlue.getValue(), position: [initLocation.x + adaptedSize.x, initLocation.y + adaptedSize.y]),
-               ShaderVertex(color: CPEBlue.getValue(), position: initLocation),
-                ShaderVertex(color: CPEBlue.getValue(), position: [initLocation.x + adaptedSize.x, initLocation.y + adaptedSize.y]),
-                ShaderVertex(color: CPEBlue.getValue(), position: [initLocation.x + adaptedSize.x, initLocation.y])]
+        return [ShaderVertex(color: CPEBlue.getValue(), position: centeredLocation),
+                ShaderVertex(color: CPEBlue.getValue(), position: [centeredLocation.x, centeredLocation.y + initSize.y]),
+                ShaderVertex(color: CPEBlue.getValue(), position: [centeredLocation.x + initSize.x, centeredLocation.y + initSize.y]),
+               ShaderVertex(color: CPEBlue.getValue(), position: centeredLocation),
+                ShaderVertex(color: CPEBlue.getValue(), position: [centeredLocation.x + initSize.x, centeredLocation.y + initSize.y]),
+                ShaderVertex(color: CPEBlue.getValue(), position: [centeredLocation.x + initSize.x, centeredLocation.y])]
     }
     
     class func buildRenderPipelineWithDevice(device: MTLDevice,
