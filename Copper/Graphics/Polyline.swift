@@ -92,6 +92,27 @@ open class CPEPolyline : CPEDrawable
         }
     }
     
+    
+    
+    public func removeFirst() -> simd_float2? {
+        
+        var removed: simd_float2? = nil
+        
+        if !points.isEmpty {
+            removed = points.first
+            points.removeFirst()
+            
+            if vertices.count > 12 {
+                vertices.removeSubrange(0...11)
+            } else {
+                vertices.removeAll()
+            }
+        }
+        
+        return removed
+    }
+    
+    
     private func filterPoint(point: simd_float2, front: Bool) -> Bool {
         let pointToCompare = front ? points.first : points.last
         
