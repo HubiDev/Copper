@@ -75,9 +75,13 @@ open class CPEPolyline : CPEDrawable
         
     }
     
-    public func appendPoint(point: simd_float2) -> Void {
+    private func adaptPoint(_ point: simd_float2) -> simd_float2 {
+        return point * (1.0 / self.metalView.getAspectRatio())
+    }
+    
+    public func appendPoint(point: simd_float2) {
         
-        let adaptedPoint = point * simd_float2(1.0, 1.0/0.5622189)
+        let adaptedPoint = adaptPoint(point)
         
         if points.isEmpty {
             points.append(adaptedPoint)
@@ -86,13 +90,20 @@ open class CPEPolyline : CPEDrawable
                 points.append(adaptedPoint)
                 
                 if points.count > 1 {
-                    render()
+                    render(at: points.count - 1)
                 }
             }
         }
     }
     
-    
+    public func insertPoint(_ point: simd_float2, at index: Int) {
+        let adaptedPoint = adaptPoint(point)
+        
+        if points.isEmpty {
+            points.insert(point, at: index)
+        } else {
+        }
+    }
     
     public func removeFirst() -> simd_float2? {
         
@@ -107,10 +118,15 @@ open class CPEPolyline : CPEDrawable
             } else {
                 vertices.removeAll()
             }
+            
+            if !points.isEmpty {
+                self.vertexBuffer = metalDevice.makeBuffer(bytes: vertices, length: vertices.count * MemoryLayout<ShaderVertex>.stride, options: [])!
+            }
         }
         
         return removed
     }
+    
     
     
     private func filterPoint(point: simd_float2, front: Bool) -> Bool {
@@ -124,19 +140,43 @@ open class CPEPolyline : CPEDrawable
         return false
     }
     
-    private func render() {
+    private func pointToVertexIndex(index: Int) -> Int {
+        
+        if index <= 1 { // start
+            return index * 6 - 1;
+        // TODO: point between start and end
+        } else { // end
+            return 6 + 12 * (index - 1) - 1; // 6 + 12 * (2 - 1)
+        }
+        
+        // 0      1       2        3
+        // 0      5       17       29
+        // *------*-------*--------*
+        // return index behind line joints
+        // eg. index = 2 --> 6 + 12 * 1 - 1 = 17
+        // eg. index = 3 --> 6 + 12 * 2 - 1 = 29
+        //return 6 + 12 * (index - 1);
+    }
+    
+    
+    private func render(at index: Int) {
         
         if points.count > 1 {
-            let startPoint = points[points.count - 2]
-            let endPoint = points.last! // TODO
+            let startPoint = points[index - 1]
+            let endPoint = points[index]
             let (lowerLeftPoint, upperLeftPoint, upperRightPoint, lowerRightPoint) = calcLineSegment(startPoint, endPoint)
             
             if(points.count > 2)
             {
-                let lastLowerPoint = vertices[vertices.count - 1]
-                let lastUpperPoint = vertices[vertices.count - 2]
+                // 6 vertices per line joint, 6 vertices per line
+                // first two points do not need a line joint
+                let vertexIndex = pointToVertexIndex(index: index - 1)
+                
+                
+                let lastLowerPoint = vertices[vertexIndex]
+                let lastUpperPoint = vertices[vertexIndex - 1]
 
-                // line joint
+                // line joint to the left
                 vertices.append(lastUpperPoint)
                 vertices.append(ShaderVertex(color: self.color, position: lowerLeftPoint))
                 vertices.append(ShaderVertex(color: self.color, position: upperLeftPoint))
@@ -144,6 +184,7 @@ open class CPEPolyline : CPEDrawable
                 vertices.append(lastLowerPoint)
                 vertices.append(ShaderVertex(color: self.color, position: lowerLeftPoint))
                 vertices.append(ShaderVertex(color: self.color, position: upperLeftPoint))
+                
             }
 
             // duplicated
