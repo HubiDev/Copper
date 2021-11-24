@@ -14,7 +14,7 @@ open class CPEPolyline : CPEDrawable
     let metalDevice: MTLDevice
     let metalView: MTKView
     
-    var points: [simd_float2] = [simd_float2]()
+    public private(set) var points: [simd_float2] = [simd_float2]()
     var vertices: [ShaderVertex] = [ShaderVertex]()
     var vertexBuffer: MTLBuffer? = nil
     
@@ -99,10 +99,8 @@ open class CPEPolyline : CPEDrawable
     public func insertPoint(_ point: simd_float2, at index: Int) {
         let adaptedPoint = adaptPoint(point)
         
-        if points.isEmpty {
-            points.insert(point, at: index)
-        } else {
-        }
+        points.insert(adaptedPoint, at: index)
+        render(at: index)
     }
     
     public func removeFirst() -> simd_float2? {
@@ -142,7 +140,9 @@ open class CPEPolyline : CPEDrawable
     
     private func pointToVertexIndex(index: Int) -> Int {
         
-        if index <= 1 { // start
+        if index == 0 {
+            return 0
+        } else if index <= 1 { // start
             return index * 6 - 1;
         // TODO: point between start and end
         } else { // end
@@ -153,6 +153,7 @@ open class CPEPolyline : CPEDrawable
         // 0      5       17       29
         // *------*-------*--------*
         // return index behind line joints
+        // eg. index = 0 --> 0 * 6 - 1 = - 1
         // eg. index = 2 --> 6 + 12 * 1 - 1 = 17
         // eg. index = 3 --> 6 + 12 * 2 - 1 = 29
         //return 6 + 12 * (index - 1);
@@ -171,33 +172,54 @@ open class CPEPolyline : CPEDrawable
                 // 6 vertices per line joint, 6 vertices per line
                 // first two points do not need a line joint
                 let vertexIndex = pointToVertexIndex(index: index - 1)
-                
-                
-                let lastLowerPoint = vertices[vertexIndex]
-                let lastUpperPoint = vertices[vertexIndex - 1]
 
-                // line joint to the left
-                vertices.append(lastUpperPoint)
-                vertices.append(ShaderVertex(color: self.color, position: lowerLeftPoint))
-                vertices.append(ShaderVertex(color: self.color, position: upperLeftPoint))
+                // line joint to the left only if point is not added at the front
+                if index != 0 {
+                    let lastLowerPoint = vertices[vertexIndex]
+                    let lastUpperPoint = vertices[vertexIndex - 1]
+                    
+                    vertices.append(lastUpperPoint)
+                    vertices.append(ShaderVertex(color: self.color, position: lowerLeftPoint))
+                    vertices.append(ShaderVertex(color: self.color, position: upperLeftPoint))
 
-                vertices.append(lastLowerPoint)
-                vertices.append(ShaderVertex(color: self.color, position: lowerLeftPoint))
-                vertices.append(ShaderVertex(color: self.color, position: upperLeftPoint))
+                    vertices.append(lastLowerPoint)
+                    vertices.append(ShaderVertex(color: self.color, position: lowerLeftPoint))
+                    vertices.append(ShaderVertex(color: self.color, position: upperLeftPoint))
+                }
                 
+                if index != points.endIndex - 1 {
+                    // line joint to the right
+                    let lastLowerPoint = vertices[vertexIndex]
+                    let lastUpperPoint = vertices[vertexIndex + 1]
+                    vertices.append(lastUpperPoint)
+                    vertices.append(ShaderVertex(color: self.color, position: lowerRightPoint))
+                    vertices.append(ShaderVertex(color: self.color, position: upperRightPoint))
+                
+                    vertices.append(lastLowerPoint)
+                    vertices.append(ShaderVertex(color: self.color, position: lowerRightPoint))
+                    vertices.append(ShaderVertex(color: self.color, position: upperRightPoint))
+                }
             }
 
             // duplicated
+            // I
+            // I    *
+            // I        *
+            // I            I
             vertices.append(ShaderVertex(color: self.color, position: lowerLeftPoint))
             vertices.append(ShaderVertex(color: self.color, position: upperLeftPoint))
             vertices.append(ShaderVertex(color: self.color, position: lowerRightPoint))
 
+            // I            I
+            //      *       I
+            //          *   I
+            //              I
             vertices.append(ShaderVertex(color: self.color, position: upperLeftPoint))
             vertices.append(ShaderVertex(color: self.color, position: upperRightPoint))
             vertices.append(ShaderVertex(color: self.color, position: lowerRightPoint))
+            
+            self.vertexBuffer = metalDevice.makeBuffer(bytes: vertices, length: vertices.count * MemoryLayout<ShaderVertex>.stride, options: [])!
         }
-        
-        self.vertexBuffer = metalDevice.makeBuffer(bytes: vertices, length: vertices.count * MemoryLayout<ShaderVertex>.stride, options: [])!
     }
     
     private func calcLineSegment(_ startPoint: simd_float2, _ endPoint: simd_float2) -> (simd_float2, simd_float2, simd_float2, simd_float2) {

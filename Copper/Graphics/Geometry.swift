@@ -42,3 +42,4 @@ public func calcUnitVector(_ vector: simd_float2) -> simd_float2 {
     let length = calcVectorLength(vector)
     return [vector.x / length, vector.y / length]
 }
+
