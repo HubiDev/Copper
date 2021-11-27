@@ -104,14 +104,13 @@ open class CPEPolyline : CPEDrawable
         if !points.isEmpty {
             removed = points.first
             points.removeFirst()
-            
             if vertices.count > 12 {
                 vertices.removeSubrange(0...11)
             } else {
                 vertices.removeAll()
             }
             
-            if !points.isEmpty {
+            if !vertices.isEmpty {
                 self.vertexBuffer = metalDevice.makeBuffer(bytes: vertices, length: vertices.count * MemoryLayout<ShaderVertex>.stride, options: [])!
             }
         }
@@ -215,9 +214,17 @@ open class CPEPolyline : CPEDrawable
         }
     }
     
+    private func adaptToAspectRatio(_ point: simd_float2) -> simd_float2 {
+        return point * (1.0 / self.metalView.getAspectRatio())
+    }
+    
     private func calcLineSegment(_ startPoint: simd_float2, _ endPoint: simd_float2) -> (simd_float2, simd_float2, simd_float2, simd_float2) {
         
-        let vectorBetweenPoints = calcVector(startPoint, endPoint)
+        // compensate for shader
+        let adaptedStartPoint = adaptToAspectRatio(startPoint)
+        let adaptedEndPoint = adaptToAspectRatio(endPoint)
+        
+        let vectorBetweenPoints = calcVector(adaptedStartPoint, adaptedEndPoint)
         var orthoVector = calcOrthoVector(vectorBetweenPoints)
         orthoVector = calcUnitVector(orthoVector)
         
@@ -226,14 +233,14 @@ open class CPEPolyline : CPEDrawable
         var upperRightPoint: simd_float2 = [0.0, 0.0]
         var lowerRightPoint: simd_float2 = [0.0, 0.0]
 
-        lowerLeftPoint.x = startPoint.x + ((-1.0) * thickness * orthoVector.x);
-        lowerLeftPoint.y = startPoint.y + ((-1.0) * thickness * orthoVector.y);
-        upperLeftPoint.x = startPoint.x + (thickness * orthoVector.x);
-        upperLeftPoint.y = startPoint.y + (thickness * orthoVector.y);
-        lowerRightPoint.x = endPoint.x + ((-1.0) * thickness * orthoVector.x);
-        lowerRightPoint.y = endPoint.y + ((-1.0) * thickness * orthoVector.y);
-        upperRightPoint.x = endPoint.x + (thickness * orthoVector.x);
-        upperRightPoint.y = endPoint.y + (thickness * orthoVector.y);
+        lowerLeftPoint.x = adaptedStartPoint.x + ((-1.0) * thickness * orthoVector.x);
+        lowerLeftPoint.y = adaptedStartPoint.y + ((-1.0) * thickness * orthoVector.y);
+        upperLeftPoint.x = adaptedStartPoint.x + (thickness * orthoVector.x);
+        upperLeftPoint.y = adaptedStartPoint.y + (thickness * orthoVector.y);
+        lowerRightPoint.x = adaptedEndPoint.x + ((-1.0) * thickness * orthoVector.x);
+        lowerRightPoint.y = adaptedEndPoint.y + ((-1.0) * thickness * orthoVector.y);
+        upperRightPoint.x = adaptedEndPoint.x + (thickness * orthoVector.x);
+        upperRightPoint.y = adaptedEndPoint.y + (thickness * orthoVector.y);
 
         return (lowerLeftPoint, upperLeftPoint, upperRightPoint, lowerRightPoint)
     }
