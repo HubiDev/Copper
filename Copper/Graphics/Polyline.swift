@@ -99,6 +99,7 @@ open class CPEPolyline : CPEDrawable
     public func insertPoint(_ point: simd_float2, at index: Int) {
         let adaptedPoint = adaptPoint(point)
         
+        // TODO: filter
         points.insert(adaptedPoint, at: index)
         render(at: index)
     }
@@ -138,85 +139,84 @@ open class CPEPolyline : CPEDrawable
         return false
     }
     
-    private func pointToVertexIndex(index: Int) -> Int {
+    private func renderFront(start: simd_float2, end: simd_float2, needsLineJoint: Bool) {
+        let (lowerLeftPoint, upperLeftPoint, upperRightPoint, lowerRightPoint) = calcLineSegment(start, end)
+
+        vertices.insert(ShaderVertex(color: self.color, position: lowerRightPoint), at: 0)
+        vertices.insert(ShaderVertex(color: self.color, position: upperRightPoint), at: 0)
+        vertices.insert(ShaderVertex(color: self.color, position: upperLeftPoint), at: 0)
+
+        vertices.insert(ShaderVertex(color: self.color, position: lowerRightPoint), at: 0)
+        vertices.insert(ShaderVertex(color: self.color, position: upperLeftPoint), at: 0)
+        vertices.insert(ShaderVertex(color: self.color, position: lowerLeftPoint), at: 0)
         
-        if index == 0 {
-            return 0
-        } else if index <= 1 { // start
-            return index * 6 - 1;
-        // TODO: point between start and end
-        } else { // end
-            return 6 + 12 * (index - 1) - 1; // 6 + 12 * (2 - 1)
+        if needsLineJoint {
+            let vertexIndex = 5
+            let lastLowerPoint = vertices[vertexIndex]
+            let lastUpperPoint = vertices[vertexIndex - 1]
+            
+            vertices.insert(ShaderVertex(color: self.color, position: upperLeftPoint), at: 6)
+            vertices.insert(ShaderVertex(color: self.color, position: lowerLeftPoint), at: 6)
+            vertices.insert(lastLowerPoint, at: 6)
+            
+            vertices.insert(ShaderVertex(color: self.color, position: upperLeftPoint), at: 6)
+            vertices.insert(ShaderVertex(color: self.color, position: lowerLeftPoint), at: 6)
+            vertices.insert(lastUpperPoint, at: 6)
+        }
+
+    }
+    
+    private func renderBack(start: simd_float2, end: simd_float2, needsLineJoint: Bool) {
+
+        let (lowerLeftPoint, upperLeftPoint, upperRightPoint, lowerRightPoint) = calcLineSegment(start, end)
+        
+        if needsLineJoint {
+            let vertexIndex = vertices.count - 1
+            let lastLowerPoint = vertices[vertexIndex]
+            let lastUpperPoint = vertices[vertexIndex - 1]
+            
+            vertices.append(lastUpperPoint)
+            vertices.append(ShaderVertex(color: self.color, position: lowerLeftPoint))
+            vertices.append(ShaderVertex(color: self.color, position: upperLeftPoint))
+
+            vertices.append(lastLowerPoint)
+            vertices.append(ShaderVertex(color: self.color, position: lowerLeftPoint))
+            vertices.append(ShaderVertex(color: self.color, position: upperLeftPoint))
         }
         
-        // 0      1       2        3
-        // 0      5       17       29
-        // *------*-------*--------*
-        // return index behind line joints
-        // eg. index = 0 --> 0 * 6 - 1 = - 1
-        // eg. index = 2 --> 6 + 12 * 1 - 1 = 17
-        // eg. index = 3 --> 6 + 12 * 2 - 1 = 29
-        //return 6 + 12 * (index - 1);
+        vertices.append(ShaderVertex(color: self.color, position: lowerLeftPoint))
+        vertices.append(ShaderVertex(color: self.color, position: upperLeftPoint))
+        vertices.append(ShaderVertex(color: self.color, position: lowerRightPoint))
+
+        vertices.append(ShaderVertex(color: self.color, position: upperLeftPoint))
+        vertices.append(ShaderVertex(color: self.color, position: upperRightPoint))
+        vertices.append(ShaderVertex(color: self.color, position: lowerRightPoint))
+                    
     }
+    
+    private func renderCenter(start: simd_float2, end: simd_float2) {
+        
+    }
+    
     
     
     private func render(at index: Int) {
         
         if points.count > 1 {
-            let startPoint = points[index - 1]
-            let endPoint = points[index]
-            let (lowerLeftPoint, upperLeftPoint, upperRightPoint, lowerRightPoint) = calcLineSegment(startPoint, endPoint)
             
-            if(points.count > 2)
-            {
-                // 6 vertices per line joint, 6 vertices per line
-                // first two points do not need a line joint
-                let vertexIndex = pointToVertexIndex(index: index - 1)
-
-                // line joint to the left only if point is not added at the front
-                if index != 0 {
-                    let lastLowerPoint = vertices[vertexIndex]
-                    let lastUpperPoint = vertices[vertexIndex - 1]
-                    
-                    vertices.append(lastUpperPoint)
-                    vertices.append(ShaderVertex(color: self.color, position: lowerLeftPoint))
-                    vertices.append(ShaderVertex(color: self.color, position: upperLeftPoint))
-
-                    vertices.append(lastLowerPoint)
-                    vertices.append(ShaderVertex(color: self.color, position: lowerLeftPoint))
-                    vertices.append(ShaderVertex(color: self.color, position: upperLeftPoint))
-                }
-                
-                if index != points.endIndex - 1 {
-                    // line joint to the right
-                    let lastLowerPoint = vertices[vertexIndex]
-                    let lastUpperPoint = vertices[vertexIndex + 1]
-                    vertices.append(lastUpperPoint)
-                    vertices.append(ShaderVertex(color: self.color, position: lowerRightPoint))
-                    vertices.append(ShaderVertex(color: self.color, position: upperRightPoint))
-                
-                    vertices.append(lastLowerPoint)
-                    vertices.append(ShaderVertex(color: self.color, position: lowerRightPoint))
-                    vertices.append(ShaderVertex(color: self.color, position: upperRightPoint))
-                }
+            let lineJointNeeded = points.count > 2
+            
+            if index == points.count - 1 {
+                let startPoint = points[index - 1]
+                let endPoint = points[index]
+                renderBack(start: startPoint, end: endPoint, needsLineJoint: lineJointNeeded)
+            } else if index == 0 {
+                let startPoint = points.first!
+                let endPoint = points[1]
+                renderFront(start: startPoint, end: endPoint, needsLineJoint: lineJointNeeded)
+            } else {
+                // TODO: implement
             }
-
-            // duplicated
-            // I
-            // I    *
-            // I        *
-            // I            I
-            vertices.append(ShaderVertex(color: self.color, position: lowerLeftPoint))
-            vertices.append(ShaderVertex(color: self.color, position: upperLeftPoint))
-            vertices.append(ShaderVertex(color: self.color, position: lowerRightPoint))
-
-            // I            I
-            //      *       I
-            //          *   I
-            //              I
-            vertices.append(ShaderVertex(color: self.color, position: upperLeftPoint))
-            vertices.append(ShaderVertex(color: self.color, position: upperRightPoint))
-            vertices.append(ShaderVertex(color: self.color, position: lowerRightPoint))
             
             self.vertexBuffer = metalDevice.makeBuffer(bytes: vertices, length: vertices.count * MemoryLayout<ShaderVertex>.stride, options: [])!
         }
