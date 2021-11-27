@@ -26,6 +26,10 @@ open class CPETouchHandler {
         view.addGestureRecognizer(gestureRecognizer!)
     }
     
+    private func adaptToAspectRatio(_ point: simd_float2) -> simd_float2 {
+        return point * (1.0 / self.metalView.getAspectRatio())
+    }
+    
     @objc
     private func handlePan(){
         
@@ -40,7 +44,7 @@ open class CPETouchHandler {
 
         let inverseSize = 1.0 / frameSize
         let normalizedLocation = simd_float2(2.0 * location.x * inverseSize.x - 1.0, 2.0 * -location.y * inverseSize.y + 1.0)
-        lastPoints.append(normalizedLocation)
+        lastPoints.append(adaptToAspectRatio(normalizedLocation))
     }
     
     public func getLastPoints() -> [simd_float2] {

@@ -75,19 +75,13 @@ open class CPEPolyline : CPEDrawable
         
     }
     
-    private func adaptPoint(_ point: simd_float2) -> simd_float2 {
-        return point * (1.0 / self.metalView.getAspectRatio())
-    }
-    
-    public func appendPoint(point: simd_float2) {
-        
-        let adaptedPoint = adaptPoint(point)
-        
+    public func appendPoint(_ point: simd_float2) {
+                
         if points.isEmpty {
-            points.append(adaptedPoint)
+            points.append(point)
         } else {
-            if filterPoint(point: adaptedPoint, front: false) {
-                points.append(adaptedPoint)
+            if filterPoint(point: point, front: false) {
+                points.append(point)
                 
                 if points.count > 1 {
                     render(at: points.count - 1)
@@ -96,11 +90,10 @@ open class CPEPolyline : CPEDrawable
         }
     }
     
-    public func insertPoint(_ point: simd_float2, at index: Int) {
-        let adaptedPoint = adaptPoint(point)
+    public func insertPoint(_ point: simd_float2, at index: Int, adapt: Bool = false) {
         
         // TODO: filter
-        points.insert(adaptedPoint, at: index)
+        points.insert(point, at: index)
         render(at: index)
     }
     
