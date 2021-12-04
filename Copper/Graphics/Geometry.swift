@@ -43,3 +43,13 @@ public func calcUnitVector(_ vector: simd_float2) -> simd_float2 {
     return [vector.x / length, vector.y / length]
 }
 
+public func calcScalarProduct(_ first: simd_float2, _ second: simd_float2) -> Float {
+    return first.x * second.x + first.y * second.y
+}
+
+public func calcAngle(_ first: simd_float2, _ second: simd_float2) -> Float {
+    let scalar = calcScalarProduct(first, second)
+    let lengthFirst = calcVectorLength(first)
+    let lengthSecond = calcVectorLength(second)
+    return acos(scalar / (lengthFirst * lengthSecond))
+}
