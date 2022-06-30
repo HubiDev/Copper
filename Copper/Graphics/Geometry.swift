@@ -53,3 +53,25 @@ public func calcAngle(_ first: simd_float2, _ second: simd_float2) -> Float {
     let lengthSecond = calcVectorLength(second)
     return acos(scalar / (lengthFirst * lengthSecond))
 }
+
+public func normalizeAngle(_ angle: Float) -> Float {
+    return angle.truncatingRemainder(dividingBy: 2 * .pi)
+}
+
+public func angleDistance(_ first: Float, _ second: Float) -> Float {
+    let firstNormalized = normalizeAngle(first)
+    let secondNormalized = normalizeAngle(second)
+    
+    return abs(firstNormalized - secondNormalized)
+}
+
+public func minAngleDistance(_ first: Float, _ second: Float) -> Float {
+    
+    let distance = angleDistance(first, second)
+    
+    if distance > .pi {
+        return 2 * .pi - distance
+    }
+    
+    return distance
+}

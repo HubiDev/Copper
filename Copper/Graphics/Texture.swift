@@ -17,6 +17,7 @@ open class CPETexture: CPEDrawable {
     var metalTexture: MTLTexture?
     
     public var location: simd_float2 = [0.0, 0.0]
+    /// Rotation in rad
     public var rotation: Float = 0.0
     
     var renderPipelineState: MTLRenderPipelineState?

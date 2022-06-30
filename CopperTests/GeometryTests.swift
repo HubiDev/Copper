@@ -40,6 +40,30 @@ class GeometryTests: XCTestCase {
         XCTAssertEqual(result5, [-1,-1])
         
     }
+    
+    func testCalcAngleDistanceOrder() throws {
+        
+        let larger = 2.0 * Float.pi
+        let smaller = Float.pi
+        
+        let expectedResult = Float.pi
+        let accuracy: Float = 0.001
+        
+        let result1 = angleDistance(larger, smaller)
+        XCTAssertEqual(result1, expectedResult, accuracy: accuracy)
 
+        let result2 = angleDistance(smaller, larger)
+        XCTAssertEqual(result2, expectedResult, accuracy: accuracy)
+    }
+
+    func testCalcMinAngleDistance() throws {
+        
+        let accuracy: Float = 0.001
+        let expectedResult: Float = 1.0
+        let result = minAngleDistance(2.0 * Float.pi, expectedResult)
+        
+        XCTAssertEqual(result, expectedResult, accuracy: accuracy)
+    }
+    
 }
 
